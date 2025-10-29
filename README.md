@@ -483,9 +483,21 @@ If playbook reports changes on every run, check:
 
 ## Links
 
+### Related Repositories
+- **Cluster Config** (Platform GitOps): https://github.com/djdanielsson/rh1-cluster-config
+- **Ansible Collection**: https://github.com/djdanielsson/rh1-custom-collection
+- **Execution Environment**: https://github.com/djdanielsson/rh1-custom-ee
+- **Release Manifests**: https://github.com/djdanielsson/rh1-release-manifest
+
+### Documentation
+- **Project Workspace**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle
+- **Quickstart Guide**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle/blob/main/specs/001-cloud-native-ansible-lifecycle/quickstart.md
+- **Constitution**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle/blob/main/.specify/memory/constitution.md
+
+### External Resources
 - **Collection Docs**: https://github.com/redhat-cop/aap_configuration
 - **AAP API Docs**: https://docs.ansible.com/automation-controller/latest/html/controllerapi/
-- **Quickstart**: See `specs/001-cloud-native-ansible-lifecycle/quickstart.md` in cluster-config repo
+
 - **Constitution**: See `.specify/memory/constitution.md` in cluster-config repo
 
 ---
