@@ -1,0 +1,53 @@
+---
+# AAP Configuration-as-Code Inventory
+# Defines target AAP environments
+
+all:
+  children:
+    # AAP Development Environment
+    aap_dev:
+      hosts:
+        localhost:
+          ansible_connection: local
+      vars:
+        # AAP connection details (set by pipeline or environment)
+        controller_hostname: "{{ lookup('env', 'CONTROLLER_HOST') | default('https://aap-dev-aap-dev.apps.cluster.example.com') }}"
+        controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') | default('admin') }}"
+        controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') | default(omit) }}"
+        controller_oauthtoken: "{{ lookup('env', 'CONTROLLER_OAUTH_TOKEN') | default(omit) }}"
+        controller_validate_certs: false
+        
+        # Environment metadata
+        environment_name: dev
+        environment_tier: development
+    
+    # AAP QA Environment
+    aap_qa:
+      hosts:
+        localhost:
+          ansible_connection: local
+      vars:
+        controller_hostname: "{{ lookup('env', 'CONTROLLER_HOST') | default('https://aap-qa-aap-qa.apps.cluster.example.com') }}"
+        controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') | default('admin') }}"
+        controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') | default(omit) }}"
+        controller_oauthtoken: "{{ lookup('env', 'CONTROLLER_OAUTH_TOKEN') | default(omit) }}"
+        controller_validate_certs: false
+        
+        environment_name: qa
+        environment_tier: staging
+    
+    # AAP Production Environment
+    aap_prod:
+      hosts:
+        localhost:
+          ansible_connection: local
+      vars:
+        controller_hostname: "{{ lookup('env', 'CONTROLLER_HOST') | default('https://aap-prod-aap-prod.apps.cluster.example.com') }}"
+        controller_username: "{{ lookup('env', 'CONTROLLER_USERNAME') | default('admin') }}"
+        controller_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') | default(omit) }}"
+        controller_oauthtoken: "{{ lookup('env', 'CONTROLLER_OAUTH_TOKEN') | default(omit) }}"
+        controller_validate_certs: false
+        
+        environment_name: prod
+        environment_tier: production
+

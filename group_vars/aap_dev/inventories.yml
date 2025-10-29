@@ -1,0 +1,19 @@
+---
+# Dev Environment Inventories
+# Using _dev suffix for wildcard merging
+
+controller_inventories_dev:
+  - name: Dev Servers
+    description: Development environment servers
+    organization: Platform
+    variables:
+      environment: dev
+      ansible_connection: ssh
+      ansible_user: ansible
+
+  - name: Dev Localhost
+    description: Localhost inventory for API-based automation
+    organization: Default
+    variables:
+      ansible_connection: local
+

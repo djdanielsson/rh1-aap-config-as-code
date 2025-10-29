@@ -1,0 +1,19 @@
+---
+# QA Environment Inventories
+# Using _qa suffix for wildcard merging
+
+controller_inventories_qa:
+  - name: QA Servers
+    description: QA environment servers
+    organization: Platform
+    variables:
+      environment: qa
+      ansible_connection: ssh
+      ansible_user: ansible
+
+  - name: QA Localhost
+    description: Localhost inventory for API automation
+    organization: Default
+    variables:
+      ansible_connection: local
+

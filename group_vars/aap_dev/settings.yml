@@ -1,0 +1,28 @@
+---
+# Dev Environment Settings
+
+controller_settings:
+  settings:
+    # Authentication
+    AUTH_BASIC_ENABLED: true
+    
+    # Job settings
+    DEFAULT_JOB_TIMEOUT: 1800  # 30 minutes
+    
+    # Ansible settings
+    AWX_TASK_ENV:
+      ANSIBLE_HOST_KEY_CHECKING: "False"
+    
+    # Logging
+    LOG_AGGREGATOR_ENABLED: false  # Disable for dev
+    
+    # Performance
+    SYSTEM_TASK_FORKS: 10
+    
+    # UI
+    CUSTOM_LOGO: ""
+    CUSTOM_LOGIN_INFO: "Development Environment - For Testing Only"
+
+# Enable project sync after configuration
+controller_projects_sync_on_completion: true
+

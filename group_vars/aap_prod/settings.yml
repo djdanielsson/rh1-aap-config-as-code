@@ -1,0 +1,33 @@
+---
+# Production Environment Settings - Most Restrictive
+
+controller_settings:
+  settings:
+    # Authentication
+    AUTH_BASIC_ENABLED: false
+    
+    # Job settings
+    DEFAULT_JOB_TIMEOUT: 7200  # 2 hours max
+    
+    # Ansible settings
+    AWX_TASK_ENV:
+      ANSIBLE_HOST_KEY_CHECKING: "True"
+      ANSIBLE_RETRY_FILES_ENABLED: "True"
+    
+    # Logging - Full logging in production
+    LOG_AGGREGATOR_ENABLED: true
+    LOG_AGGREGATOR_LEVEL: INFO
+    LOG_AGGREGATOR_PROTOCOL: https
+    
+    # Performance
+    SYSTEM_TASK_FORKS: 50
+    
+    # UI
+    CUSTOM_LOGIN_INFO: "⚠️  PRODUCTION ENVIRONMENT ⚠️"
+    
+    # Job retention
+    JOB_EVENT_RETENTION: 90  # Keep job history for 90 days
+
+# NEVER auto-sync projects in production
+controller_projects_sync_on_completion: false
+

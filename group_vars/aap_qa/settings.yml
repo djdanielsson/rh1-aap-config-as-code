@@ -1,0 +1,28 @@
+---
+# QA Environment Settings
+
+controller_settings:
+  settings:
+    # Authentication - stricter than dev
+    AUTH_BASIC_ENABLED: false
+    
+    # Job settings
+    DEFAULT_JOB_TIMEOUT: 3600  # 1 hour
+    
+    # Ansible settings
+    AWX_TASK_ENV:
+      ANSIBLE_HOST_KEY_CHECKING: "True"  # Enforce in QA
+    
+    # Logging
+    LOG_AGGREGATOR_ENABLED: true
+    LOG_AGGREGATOR_LEVEL: INFO
+    
+    # Performance
+    SYSTEM_TASK_FORKS: 20
+    
+    # UI
+    CUSTOM_LOGIN_INFO: "QA Environment - Testing Only"
+
+# Don't auto-sync projects in QA
+controller_projects_sync_on_completion: false
+

@@ -1,0 +1,22 @@
+---
+# Production Environment Inventories
+# Using _prod suffix for wildcard merging
+
+controller_inventories_prod:
+  - name: Production Servers
+    description: Production environment servers
+    organization: Platform
+    variables:
+      environment: production
+      ansible_connection: ssh
+      ansible_user: ansible
+      # Production-specific settings
+      gather_facts: true
+      gather_timeout: 30
+
+  - name: Production Localhost
+    description: Localhost inventory for API automation
+    organization: Default
+    variables:
+      ansible_connection: local
+

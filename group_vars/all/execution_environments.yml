@@ -1,0 +1,10 @@
+---
+# Base Execution Environment available in all environments
+# Using _all suffix for wildcard merging
+
+controller_execution_environments_all:
+  - name: Default Execution Environment
+    description: Base EE with core Ansible collections
+    image: "quay.io/ansible/awx-ee:latest"
+    pull: missing
+

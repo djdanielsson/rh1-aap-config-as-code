@@ -1,0 +1,77 @@
+# Ansible / AAP Configuration-as-Code - GitIgnore
+
+# CRITICAL: Never commit secrets!
+*.key
+*.pem
+*.p12
+*.pfx
+*password*
+*secret*
+*token*
+*vault_pass*
+.vault_pass
+
+# Ansible logs and cache
+ansible.log
+*.log
+.ansible/
+ansible_facts/
+/tmp/
+
+# Galaxy token only
+galaxy_token
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+htmlcov/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/

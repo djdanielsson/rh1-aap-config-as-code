@@ -1,0 +1,18 @@
+---
+# Production Environment Execution Environments
+# Fully version-locked for production stability
+# All using wildcard suffixes for consistent merging
+
+# Override base EE with production version
+controller_execution_environments_prod_base:
+  - name: Default Execution Environment
+    description: Base EE - production version
+    image: "image-registry.openshift-image-registry.svc:5000/aap-prod/awx-ee:{{ base_ee_version | default('stable') }}"
+    pull: missing
+
+controller_execution_environments_prod:
+  - name: Web EE (Production)
+    description: Production execution environment - version locked
+    image: "image-registry.openshift-image-registry.svc:5000/aap-prod/web-ee:{{ ee_version }}"
+    pull: missing
+

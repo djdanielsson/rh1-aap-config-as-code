@@ -1,0 +1,10 @@
+---
+# QA Environment Execution Environments
+# Version-locked via release manifest
+
+controller_execution_environments_qa:
+  - name: Web EE (QA)
+    description: QA execution environment - version locked
+    image: "image-registry.openshift-image-registry.svc:5000/aap-qa/web-ee:{{ ee_version | default('latest') }}"
+    pull: missing  # Only pull if not present
+

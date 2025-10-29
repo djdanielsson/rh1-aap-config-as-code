@@ -1,0 +1,10 @@
+---
+# Dev-specific Execution Environments
+# Using wildcard suffix so dispatch merges with controller_execution_environments
+
+controller_execution_environments_dev:
+  - name: Web EE (Dev)
+    description: Development execution environment for web automation
+    image: "quay.io/ansible/awx-ee:latest"  # Use latest for dev
+    pull: always  # Always pull latest in dev
+

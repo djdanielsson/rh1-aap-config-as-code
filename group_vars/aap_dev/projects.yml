@@ -1,0 +1,27 @@
+---
+# Dev Environment Projects (SCM Connections)
+# All using wildcard suffixes for consistent merging
+
+controller_projects_dev:
+  - name: Example Ansible Collection
+    description: Example automation collection
+    organization: Default
+    scm_type: git
+    scm_url: https://github.com/djdanielsson/rh1-custom-collection.git
+    scm_branch: main
+    scm_update_on_launch: true
+    scm_delete_on_update: true
+    credential: Dev GitHub Token
+    default_environment: Web EE (Dev)
+
+# Platform-specific projects using wildcard suffix
+controller_projects_dev_platform:
+  - name: Platform Automation
+    description: Infrastructure and platform playbooks
+    organization: Platform
+    scm_type: git
+    scm_url: https://github.com/example/platform-automation.git
+    scm_branch: develop  # Use develop branch in dev environment
+    scm_update_on_launch: true
+    default_environment: Default Execution Environment
+

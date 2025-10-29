@@ -1,0 +1,31 @@
+---
+# Ansible Collections Required for AAP Configuration-as-Code
+# Install with: ansible-galaxy collection install -r requirements.yml
+
+collections:
+  # AAP Configuration Collection - Main dependency (includes dispatch role)
+  - name: infra.aap_configuration
+    version: ">=2.9.0"
+  
+  # Note: infra.aap_configuration includes controller_configuration, 
+  # hub_configuration, eda_configuration, and gateway_configuration roles
+  
+  # Core Ansible collections
+  - name: ansible.builtin
+    version: ">=2.16.0"
+  
+  # Utilities for template manipulation
+  - name: ansible.utils
+    version: ">=4.0.0"
+  
+  # POSIX utilities
+  - name: ansible.posix
+    version: ">=1.5.0"
+  
+  # Community general (for lookups, filters)
+  - name: community.general
+    version: ">=9.0.0"
+
+# Note: These versions are minimums. The collection will work with newer versions.
+# Update regularly to get bug fixes and new features.
+

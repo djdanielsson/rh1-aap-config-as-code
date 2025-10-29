@@ -1,0 +1,21 @@
+---
+# Common Teams structure across all environments
+# Using _all suffix for wildcard merging
+
+controller_teams_all:
+  - name: Platform Engineers
+    description: Infrastructure and platform team
+    organization: Platform
+  
+  - name: Application Developers
+    description: Application development team
+    organization: Applications
+  
+  - name: Operations
+    description: Operations and SRE team
+    organization: Default
+  
+  - name: Security Team
+    description: Security and compliance team
+    organization: Default
+
