@@ -1,19 +1,60 @@
 ---
 # QA Environment Inventories
 # Using _qa suffix for wildcard merging
+#
+# ⚠️ IMPORTANT: Always use dynamic inventory sources (OCP-V, VMware, etc.)
+# Never define static hosts. See: docs/ANSIBLE-BEST-PRACTICES.md
 
 controller_inventories_qa:
-  - name: QA Servers
-    description: QA environment servers
+  - name: QA Infrastructure
+    description: QA VMs from OpenShift Virtualization
     organization: Platform
     variables:
       environment: qa
       ansible_connection: ssh
       ansible_user: ansible
+      ansible_python_interpreter: /usr/bin/python3
 
   - name: QA Localhost
     description: Localhost inventory for API automation
     organization: Default
     variables:
       ansible_connection: local
+
+# Dynamic Inventory Sources (100% of inventory comes from here)
+controller_inventory_sources_qa:
+  - name: "QA OCP-V VMs"
+    inventory: "QA Infrastructure"
+    source: "openshift_virtualization"
+    source_vars:
+      plugin: "kubevirt.core.kubevirt"
+      connections:
+        - namespaces:
+            - qa-vms
+            - qa-apps
+          network_name: default
+      host_format: "name"
+      label_selector: "environment=qa"
+      append_base_domain: "qa.internal.example.com"
+    credential: "OCP QA Cluster"
+    update_on_launch: true
+    update_on_project_update: true
+    update_cache_timeout: 300
+    overwrite: true
+    overwrite_vars: true
+    verbosity: 1
+
+# Inventory Groups (applied to dynamic inventory)
+controller_groups_qa:
+  - name: "webservers"
+    inventory: "QA Infrastructure"
+    variables:
+      webserver_port: 443
+      webserver_ssl_enabled: true
+
+  - name: "databases"
+    inventory: "QA Infrastructure"
+    variables:
+      database_backup_enabled: true
+      database_backup_schedule: "0 3 * * *"
 

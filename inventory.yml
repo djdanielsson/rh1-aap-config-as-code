@@ -1,6 +1,11 @@
 ---
 # AAP Configuration-as-Code Inventory
-# Defines target AAP environments
+# Defines target AAP environments (where to apply CaC)
+#
+# ℹ️ NOTE: This inventory is for running CaC playbooks AGAINST AAP controllers.
+# This is NOT the inventory that AAP will use for automation jobs.
+# AAP's automation inventory should be 100% dynamic (from OCP-V, etc.)
+# See: docs/ANSIBLE-BEST-PRACTICES.md "Inventory Management" section
 
 all:
   children:

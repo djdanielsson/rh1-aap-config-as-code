@@ -1,15 +1,19 @@
 ---
 # Production Environment Inventories
 # Using _prod suffix for wildcard merging
+#
+# ⚠️ IMPORTANT: Always use dynamic inventory sources (OCP-V, VMware, etc.)
+# Never define static hosts. See: docs/ANSIBLE-BEST-PRACTICES.md
 
 controller_inventories_prod:
-  - name: Production Servers
-    description: Production environment servers
+  - name: Production Infrastructure
+    description: Production VMs from OpenShift Virtualization
     organization: Platform
     variables:
       environment: production
       ansible_connection: ssh
       ansible_user: ansible
+      ansible_python_interpreter: /usr/bin/python3
       # Production-specific settings
       gather_facts: true
       gather_timeout: 30
@@ -19,4 +23,42 @@ controller_inventories_prod:
     organization: Default
     variables:
       ansible_connection: local
+
+# Dynamic Inventory Sources (100% of inventory comes from here)
+controller_inventory_sources_prod:
+  - name: "Prod OCP-V VMs"
+    inventory: "Production Infrastructure"
+    source: "openshift_virtualization"
+    source_vars:
+      plugin: "kubevirt.core.kubevirt"
+      connections:
+        - namespaces:
+            - prod-vms
+            - prod-apps
+            - prod-data
+          network_name: production
+      host_format: "name"
+      label_selector: "environment=production,managed=true"
+      append_base_domain: "prod.internal.example.com"
+    credential: "OCP Prod Cluster"
+    update_on_launch: true
+    update_on_project_update: false  # Don't auto-sync in prod
+    update_cache_timeout: 300
+    overwrite: true
+    overwrite_vars: true
+    verbosity: 0  # Less verbose in prod
+
+# Inventory Groups (applied to dynamic inventory)
+controller_groups_prod:
+  - name: "webservers"
+    inventory: "Production Infrastructure"
+    variables:
+      webserver_port: 443
+      webserver_ssl_enabled: true
+
+  - name: "databases"
+    inventory: "Production Infrastructure"
+    variables:
+      database_backup_enabled: true
+      database_backup_schedule: "0 2 * * *"
 
