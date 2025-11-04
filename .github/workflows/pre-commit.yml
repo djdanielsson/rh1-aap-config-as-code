@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+          # Note: No pip cache for requirements.txt - ADT installed below will be cached by pre-commit action
 
       # Install ADT (Ansible Development Tools bundle)
       # This ensures ansible-core, ansible-lint, and other Ansible tools
