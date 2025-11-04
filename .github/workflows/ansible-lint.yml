@@ -23,18 +23,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Ansible and ansible-lint
-        run: |
-          pip install ansible-core ansible-lint
-          ansible-lint --version
-
       - name: Run ansible-lint
-        run: ansible-lint --profile production --force-color
+        uses: ansible/ansible-lint@main
+        with:
+          args: "--profile production --force-color"
 
       - name: Generate lint report
         if: failure()
