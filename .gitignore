@@ -1,25 +1,56 @@
-# Ansible / AAP Configuration-as-Code - GitIgnore
+# AAP Config as Code .gitignore
+# Ansible and sensitive data
 
-# CRITICAL: Never commit secrets!
-*.key
-*.pem
-*.p12
-*.pfx
-*password*
-*secret*
-*token*
-*vault_pass*
-.vault_pass
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.settings/
+.classpath
 
-# Ansible logs and cache
-ansible.log
-*.log
+# Ansible
+*.retry
 .ansible/
-ansible_facts/
-/tmp/
+.ansible_vault_password
+.vault_pass
+.vault_password
+vault-password.txt
+vault-pass.txt
+*-vault-pass*
+ansible.log
+collections/ansible_collections/
 
-# Galaxy token only
-galaxy_token
+# Credentials and secrets
+*-credentials.yml
+*-credentials.yaml
+**/secrets/
+*.key
+*.crt
+*.pem
+*.pfx
+*.p12
+*.secret
+group_vars/*/vault.yml
+host_vars/*/vault.yml
+
+# Ansible Tower / AAP Exports
+tower_export/
+aap_export/
+*.tower_backup
+*.aap_backup
+
+# Ansible Navigator
+.ansible-navigator/
+ansible-navigator.log
+
+# Molecule
+.molecule/
+molecule/*/cache/
+.cache/
 
 # Python
 __pycache__/
@@ -27,51 +58,92 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual environments
+env/
 venv/
 ENV/
-env/
 .venv
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Testing
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg-info/
+dist/
+build/
+.pytest_cache/
 .tox/
 .coverage
-.coverage.*
-.cache
-.pytest_cache/
 htmlcov/
+*.cover
+.hypothesis/
 
-# Backup files
-*.bak
-*.backup
-*.orig
+# Virtual environments
+ansible-venv/
+.ansible-venv/
 
 # Temporary files
+tmp/
+temp/
 *.tmp
 *.temp
-.tmp/
+*.log
+*.bak
+*.backup
+
+# Testing output
+test-results/
+test-output/
+*.xml
+
+# Pre-commit
+.pre-commit-config.yaml.backup
+
+# Dynamic inventory
+inventory/*.cache
+*.inventory.cache
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+
+# Local overrides
+*.local
+*.local.*
+local-*.yml
+local-*.yaml
+override-*.yml
+override-*.yaml
+inventory-local.yml
+
+# Execution Environment artifacts
+context/
+*.tar
+
+# Documentation build artifacts
+docs/_build/
+docs/.doctrees/
+site/
+
+# Keep example files
+!example-*.yml
+!example-*.yaml
+!templates/*.yml
+!templates/*.yaml
+
+# Keep encrypted vault files (they're safe to commit)
+!*-vault.yml
+!*-vault.yaml

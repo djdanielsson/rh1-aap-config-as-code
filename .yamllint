@@ -1,0 +1,70 @@
+---
+# YAML Lint Configuration for aap-config-as-code
+# Ansible playbooks and group_vars
+
+extends: default
+
+rules:
+  # Line length - be reasonable for Ansible
+  line-length:
+    max: 160
+    level: warning
+
+  # Indentation - 2 spaces (Ansible standard)
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Comments - require space after #
+  comments:
+    require-starting-space: true
+    min-spaces-from-content: 1
+
+  # Document start --- is required for Ansible
+  document-start:
+    present: true
+
+  # Allow empty values
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: false
+
+  # Truthy values - allow yes/no (Ansible convention)
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+    check-keys: false
+
+  # Brackets - consistent spacing
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+
+  # Braces - consistent spacing
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  # Key duplicates - forbid
+  key-duplicates:
+    forbid-duplicated-merge-keys: true
+
+  # Octal values - quote them
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+
+  # Quoted strings - only when necessary
+  quoted-strings:
+    quote-type: double
+    required: only-when-needed
+    check-keys: false
+
+# Ignore certain files
+ignore: |
+  .secrets.baseline
+  venv/
+  .venv/
+
+
+

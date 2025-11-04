@@ -1,0 +1,72 @@
+---
+# Ansible Lint Configuration for aap-config-as-code
+# Production profile with custom rules
+
+# Use production profile (strict)
+profile: production
+
+# Exclude certain paths
+exclude_paths:
+  - .git/
+  - .github/
+  - venv/
+  - .venv/
+  - collections/
+  - .secrets.baseline
+
+# Ansible-lint will auto-detect these
+# kinds:
+#   - playbook: "playbook.yml"
+#   - vars: "group_vars/**/*.yml"
+
+# Skip certain rules if needed
+skip_list:
+  # Skip galaxy rule (we're not publishing this)
+  - galaxy[tags]
+  - galaxy[version-incorrect]
+  
+  # Role-specific rules (not applicable to CaC)
+  - role-name
+
+# Warn only for certain rules
+warn_list:
+  - experimental
+  - jinja[spacing]
+
+# Enable offline mode (don't check for collection updates)
+offline: true
+
+# Use default rules
+use_default_rules: true
+
+# Custom rules
+rules:
+  # Require full FQCN for modules
+  fqcn:
+    enabled: true
+
+  # Require names for all tasks
+  name:
+    enabled: true
+
+  # Check variable naming
+  var-naming:
+    enabled: true
+
+# Parser configuration
+parseable: true
+quiet: false
+verbosity: 1
+
+# Write to file
+write_list:
+  - none
+
+# Progressive mode (show all issues)
+progressive: false
+
+# Task settings
+task_name_prefix: "{stem} | "
+
+
+

@@ -1,0 +1,94 @@
+{
+  "name": "AAP Config as Code Development",
+  "image": "quay.io/ansible/creator-ee:latest",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.ansible",
+        "redhat.vscode-yaml",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "wholroyd.jinja",
+        "donjayamanne.githistory",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "ansible.ansible.path": "/usr/local/bin/ansible",
+        "ansible.python.interpreterPath": "/usr/bin/python3",
+        "ansible.validation.enabled": true,
+        "ansible.validation.lint.enabled": true,
+        "ansible.validation.lint.path": "/usr/local/bin/ansible-lint",
+        "ansible.executionEnvironment.enabled": false,
+        "yaml.schemas": {
+          "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json#/$defs/playbook": [
+            "*.yml",
+            "*.yaml"
+          ]
+        },
+        "yaml.format.enable": true,
+        "yaml.validate": true,
+        "files.associations": {
+          "*.yml": "ansible",
+          "*.yaml": "ansible",
+          "**/group_vars/**/*.yml": "ansible",
+          "**/host_vars/**/*.yml": "ansible",
+          "**/playbooks/**/*.yml": "ansible"
+        },
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml",
+          "editor.tabSize": 2
+        },
+        "[ansible]": {
+          "editor.tabSize": 2
+        },
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.python",
+          "editor.tabSize": 4
+        }
+      }
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  
+  "remoteUser": "root",
+  
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ansible,target=/root/.ansible,type=bind,consistency=cached"
+  ],
+
+  "runArgs": [
+    "--network=host"
+  ],
+
+  "forwardPorts": [],
+
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+}
+

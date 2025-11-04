@@ -1,0 +1,258 @@
+# DevWorkspace definition for OpenShift Dev Spaces / Eclipse Che
+# Used for cloud-native Ansible development on OpenShift
+schemaVersion: 2.2.0
+metadata:
+  name: aap-config-as-code
+  version: 1.0.0
+  displayName: AAP Config as Code Development
+  description: Development environment for Ansible Automation Platform Configuration as Code
+  tags:
+    - Ansible
+    - AAP
+    - Configuration
+    - GitOps
+    - Automation
+  projectType: ansible
+  language: yaml
+  provider: Red Hat
+  supportUrl: https://github.com/your-org/rh1_ansible_code_lifecycle
+
+# Parent devfile - use Ansible Creator EE
+parent:
+  uri: https://raw.githubusercontent.com/devfile/registry/main/stacks/ansible/devfile.yaml
+
+# Components - containers, volumes, plugins
+components:
+  # Main Ansible development container
+  - name: ansible-tools
+    container:
+      image: quay.io/ansible/creator-ee:latest
+      memoryLimit: 4Gi
+      memoryRequest: 1Gi
+      cpuLimit: 2000m
+      cpuRequest: 500m
+      mountSources: true
+      volumeMounts:
+        - name: ansible-cache
+          path: /root/.ansible
+        - name: cache
+          path: /root/.cache
+      env:
+        - name: ANSIBLE_CONFIG
+          value: ${PROJECT_SOURCE}/ansible.cfg
+        - name: ANSIBLE_INVENTORY
+          value: ${PROJECT_SOURCE}/inventory.yml
+      endpoints:
+        - name: health
+          targetPort: 8080
+          exposure: internal
+
+  # Volumes
+  - name: ansible-cache
+    volume:
+      size: 1Gi
+
+  - name: cache
+    volume:
+      size: 2Gi
+
+  # VS Code extensions
+  - name: vscode-ansible
+    plugin:
+      id: redhat/vscode-ansible/latest
+
+  - name: vscode-yaml
+    plugin:
+      id: redhat/vscode-yaml/latest
+
+# Commands - tasks that can be executed
+commands:
+  # Setup commands
+  - id: install-tools
+    exec:
+      label: "Install Development Tools"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: |
+        pip install --upgrade pip
+        pip install ansible-core ansible-lint ansible-navigator yamllint \
+                    jinja2-cli pre-commit detect-secrets molecule pytest
+        
+        # Install yq
+        VERSION=v4.40.5
+        wget -q https://github.com/mikefarah/yq/releases/download/${VERSION}/yq_linux_amd64 -O /tmp/yq
+        sudo mv /tmp/yq /usr/local/bin/yq
+        sudo chmod +x /usr/local/bin/yq
+        
+        # Install collections
+        if [ -f collections/requirements.yml ]; then
+          ansible-galaxy collection install -r collections/requirements.yml --force
+        fi
+        
+        echo "✅ Tools installed successfully"
+      group:
+        kind: build
+        isDefault: false
+
+  - id: setup-precommit
+    exec:
+      label: "Setup Pre-commit Hooks"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: |
+        if [ -f .pre-commit-config.yaml ]; then
+          pre-commit install
+          pre-commit install --hook-type commit-msg
+          echo "✅ Pre-commit hooks installed"
+        fi
+      group:
+        kind: build
+        isDefault: false
+
+  # Validation commands
+  - id: syntax-check
+    exec:
+      label: "Ansible Syntax Check"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --syntax-check
+      group:
+        kind: test
+        isDefault: true
+
+  - id: lint-ansible
+    exec:
+      label: "Ansible Lint"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-lint
+      group:
+        kind: test
+        isDefault: false
+
+  - id: lint-yaml
+    exec:
+      label: "YAML Lint"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: yamllint .
+      group:
+        kind: test
+        isDefault: false
+
+  - id: lint-all
+    exec:
+      label: "Run All Linters"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: |
+        echo "Running yamllint..."
+        yamllint . || true
+        echo ""
+        echo "Running ansible-lint..."
+        ansible-lint || true
+        echo ""
+        echo "✅ Linting complete"
+      group:
+        kind: test
+        isDefault: false
+
+  - id: validate-inventory
+    exec:
+      label: "Validate Inventory"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-inventory -i inventory.yml --list
+      group:
+        kind: test
+        isDefault: false
+
+  # Test commands
+  - id: dry-run-dev
+    exec:
+      label: "Dry Run (Dev Environment)"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --limit aap_dev --check --diff
+      group:
+        kind: run
+        isDefault: false
+
+  - id: dry-run-qa
+    exec:
+      label: "Dry Run (QA Environment)"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --limit aap_qa --check --diff
+      group:
+        kind: run
+        isDefault: false
+
+  - id: dry-run-prod
+    exec:
+      label: "Dry Run (Prod Environment)"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --limit aap_prod --check --diff
+      group:
+        kind: run
+        isDefault: false
+
+  # Development commands
+  - id: list-hosts-dev
+    exec:
+      label: "List Dev Hosts"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --limit aap_dev --list-hosts
+      group:
+        kind: run
+        isDefault: false
+
+  - id: list-tasks
+    exec:
+      label: "List Playbook Tasks"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --list-tasks
+      group:
+        kind: run
+        isDefault: false
+
+  - id: list-tags
+    exec:
+      label: "List Playbook Tags"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ansible-playbook playbook.yml --list-tags
+      group:
+        kind: run
+        isDefault: false
+
+  # Git commands
+  - id: git-status
+    exec:
+      label: "Git Status"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: git status
+      group:
+        kind: run
+        isDefault: false
+
+  - id: pre-commit-run
+    exec:
+      label: "Run Pre-commit Checks"
+      component: ansible-tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: pre-commit run --all-files
+      group:
+        kind: test
+        isDefault: false
+
+# Events - automatic actions
+events:
+  postStart:
+    - install-tools
+    - setup-precommit
+
