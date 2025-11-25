@@ -1,0 +1,26 @@
+---
+# AAP Configuration-as-Code Inventory
+# Defines target AAP environments (where to apply CaC)
+#
+# ℹ️ NOTE: This inventory is for running CaC playbooks AGAINST AAP controllers.
+# This is NOT the inventory that AAP will use for automation jobs.
+# AAP's automation inventory should be 100% dynamic (from OCP-V, etc.)
+# See: docs/ANSIBLE-BEST-PRACTICES.md "Inventory Management" section
+
+all:
+  children:
+    # AAP QA Environment
+    aap_qa:
+      hosts:
+        localhost:
+          ansible_connection: local
+      vars:
+        aap_hostname: "{{ lookup('env', 'AAP_HOST') | default('aap-qa-aap-qa.apps.cluster-v9c2l.v9c2l.sandbox3342.opentlc.com') }}"
+        aap_username: "{{ lookup('env', 'AAP_USERNAME') | default('admin') }}"
+        aap_password: "{{ lookup('env', 'AAP_PASSWORD') | default(omit) }}"
+        aap_token: "{{ lookup('env', 'AAP_TOKEN') | default(omit) }}"
+        aap_validate_certs: false
+
+        environment_name: qa
+        environment_tier: staging
+...

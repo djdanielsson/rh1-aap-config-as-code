@@ -4,7 +4,7 @@
 # Uses: infra.aap_configuration collection with dispatch role
 
 - name: Configure Ansible Automation Platform
-  hosts: all
+  hosts: localhost
   connection: local
   gather_facts: false
   
@@ -23,15 +23,15 @@
         msg:
           - "Environment: {{ environment_name }}"
           - "Tier: {{ environment_tier }}"
-          - "Controller: {{ controller_hostname }}"
+          - "Controller: {{ aap_hostname }}"
           - "Playbook run by: {{ lookup('env', 'USER') | default('pipeline') }}"
       tags: always
     
     - name: Verify AAP connectivity
       ansible.builtin.uri:
-        url: "{{ controller_hostname }}/api/v2/ping/"
+        url: "{{ aap_hostname }}/api/v2/ping/"
         method: GET
-        validate_certs: "{{ controller_validate_certs }}"
+        validate_certs: "{{ aap_validate_certs }}"
         status_code: 200
       register: ping_result
       failed_when: false
@@ -45,7 +45,7 @@
     
     - name: Fail if AAP is unreachable
       ansible.builtin.fail:
-        msg: "Cannot reach AAP at {{ controller_hostname }}"
+        msg: "Cannot reach AAP at {{ aap_hostname }}"
       when: ping_result.status != 200
       tags: always
   
@@ -72,7 +72,7 @@
         msg:
           - "✓ Configuration applied successfully"
           - "Environment: {{ environment_name }}"
-          - "Controller: {{ controller_hostname }}"
+          - "Controller: {{ aap_hostname }}"
       tags: always
     
     - name: Trigger project sync (if configured)
