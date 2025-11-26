@@ -82,4 +82,4 @@
         - controller_projects is defined
         - controller_projects_sync_on_completion | default(false)
       tags: project_sync
-
+...

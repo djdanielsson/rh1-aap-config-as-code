@@ -2,13 +2,12 @@
 # Production Workflow Templates
 # Using _prod suffix for wildcard merging
 
-controller_workflow_job_templates_prod:
+controller_workflow_job_templates_all:
   - name: Production Deployment Workflow
     description: Complete production deployment with validation
     organization: Applications
     inventory: Production Servers
 
-controller_workflow_job_template_nodes_prod:
   # Health check before deployment
   - identifier: health-check-pre
     unified_job_template: Production Health Check
@@ -32,4 +31,4 @@ controller_workflow_job_template_nodes_prod:
   - identifier: rollback
     unified_job_template: Production Rollback
     workflow_job_template: Production Deployment Workflow
-
+...

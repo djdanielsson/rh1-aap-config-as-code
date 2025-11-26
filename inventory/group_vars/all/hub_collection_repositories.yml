@@ -1,0 +1,32 @@
+---
+aap_configuration_async_retries: 60
+aap_configuration_async_delay: 5
+hub_collection_remotes:
+  - name: rh-certified
+    token: "{{ console_token }}"
+    url: https://console.redhat.com/api/automation-hub/content/published/
+    auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+  - name: validated
+    token: "{{ console_token }}"
+    url: https://console.redhat.com/api/automation-hub/content/validated/
+    auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+  - name: community
+    url: https://galaxy.ansible.com/api/
+    requirements:
+      - community.docker
+      - community.general
+      - community.crypto
+      - cloud.terraform
+      - containers.podman
+
+hub_collection_repositories:
+  - name: rh-certified
+    remote: rh-certified
+    sync: false
+  - name: validated
+    remote: validated
+    sync: false
+  - name: community
+    remote: community
+    sync: false
+...

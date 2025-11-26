@@ -15,8 +15,6 @@ controller_job_templates_dev:
     ask_limit_on_launch: true
     verbosity: 1
 
-# Web application templates using wildcard suffix
-controller_job_templates_dev_web:
   - name: Deploy Web Application (Dev)
     description: Deploys web application to dev environment
     job_type: run
@@ -31,4 +29,4 @@ controller_job_templates_dev_web:
     extra_vars:
       app_environment: dev
       app_version: latest
-
+...

@@ -18,6 +18,7 @@
 .ansible_vault_password
 .vault_pass
 .vault_password
+.password
 vault-password.txt
 vault-pass.txt
 *-vault-pass*

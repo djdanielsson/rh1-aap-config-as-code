@@ -14,36 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          # Note: No pip cache for requirements.txt - ADT installed below will be cached by pre-commit action
+          fetch-depth: 0
 
-      # Install ADT (Ansible Development Tools bundle)
-      # This ensures ansible-core, ansible-lint, and other Ansible tools
-      # are compatible versions as recommended by Red Hat
-      - name: Install Ansible Development Tools (ADT)
-        run: |
-          pip install --upgrade pip
-          pip install ansible-dev-tools
-          
-          # Verify installation
-          echo "ADT version:"
-          adt --version
-          echo "Ansible version:"
-          ansible --version
-          echo "Ansible-lint version:"
-          ansible-lint --version
-
-      # Use official pre-commit action
-      # Handles caching, environment management, and tool installation automatically
-      # Pre-commit will manage: gitleaks, detect-secrets, yamllint, etc.
-      - name: Run pre-commit hooks
+      - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files --show-diff-on-failure
-
-
-

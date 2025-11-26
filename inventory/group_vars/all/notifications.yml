@@ -2,7 +2,7 @@
 # Production Notification Templates
 # Using _prod suffix for wildcard merging
 
-controller_notification_templates_prod:
+controller_notification_templates_all:
   - name: Production Alerts
     description: Critical production notifications
     organization: Default
@@ -11,4 +11,4 @@ controller_notification_templates_prod:
       channels:
         - "#production-alerts"
       token: "{{ lookup('env', 'SLACK_TOKEN') }}"
-
+...

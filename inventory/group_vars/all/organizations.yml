@@ -3,7 +3,7 @@
 # These will be applied to dev, qa, and prod
 # Using _all suffix for wildcard merging
 
-controller_organizations_all:
+aap_organizations_all:
   - name: Default
     description: Default organization
     max_hosts: 0
@@ -21,4 +21,4 @@ controller_organizations_all:
     max_hosts: 0
     galaxy_credentials:
       - Ansible Galaxy
-
+...

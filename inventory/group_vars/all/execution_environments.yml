@@ -5,6 +5,6 @@
 controller_execution_environments_all:
   - name: Default Execution Environment
     description: Base EE with core Ansible collections
-    image: "quay.io/ansible/awx-ee:latest"
-    pull: missing
-
+    image: "{{ aap_hostname }}/custom-ee:{{ tag }}"
+    pull: always
+...

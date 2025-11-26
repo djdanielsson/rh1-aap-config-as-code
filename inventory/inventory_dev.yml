@@ -21,7 +21,6 @@ all:
         aap_token: "{{ lookup('env', 'AAP_TOKEN') | default(omit) }}"
         aap_validate_certs: false
 
-        # Environment metadata
         environment_name: dev
         environment_tier: development
 ...

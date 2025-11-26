@@ -2,7 +2,7 @@
 # Production Environment Job Templates
 # All using wildcard suffixes for consistent merging
 
-controller_job_templates_prod_web:
+controller_job_templates_all:
   - name: Deploy Web Application (Production)
     description: Deploys web application to PRODUCTION
     job_type: run
@@ -23,7 +23,6 @@ controller_job_templates_prod_web:
     timeout: 3600
     verbosity: 0
 
-controller_job_templates_prod_health:
   - name: Production Health Check
     description: Validates production system health
     job_type: check
@@ -34,7 +33,6 @@ controller_job_templates_prod_health:
     execution_environment: Default Execution Environment
     timeout: 600
 
-controller_job_templates_prod_rollback:
   - name: Production Rollback
     description: Rollback to previous version
     job_type: run
@@ -57,4 +55,4 @@ controller_job_templates_prod_rollback:
           type: text
           variable: rollback_version
           default: ""
-
+...

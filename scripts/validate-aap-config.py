@@ -78,8 +78,8 @@ class AAPConfigValidator:
     def get_group_vars_path(self, environment: str = None) -> Path:
         """Get path to group_vars for specified environment."""
         if environment:
-            return self.base_path / 'group_vars' / f'aap_{environment}'
-        return self.base_path / 'group_vars'
+            return self.base_path / 'inventory' / 'group_vars' / f'aap_{environment}'
+        return self.base_path / 'inventory' / 'group_vars'
     
     def validate_organizations(self, config: Dict[str, Any]) -> None:
         """Validate organization configuration."""

@@ -1,0 +1,51 @@
+---
+# Gateway Role Team Assignments
+# Assigns teams to roles with appropriate permissions
+# Using _all suffix for wildcard merging
+# Note: Requires AAP 2.6+
+
+gateway_role_team_assignments_all:
+  # Security Team - Platform Auditor Role
+  # Read-only access across the entire platform for auditing purposes
+  - assignment_objects:
+      - name: Default
+        type: organizations
+      - name: Platform
+        type: organizations
+      - name: Applications
+        type: organizations
+    role_definition: Platform Auditor
+    team: Security Team
+
+  # Platform Engineers - System Administrator Role
+  # Full administrative access to the platform
+  - assignment_objects:
+      - name: Default
+        type: organizations
+      - name: Platform
+        type: organizations
+      - name: Applications
+        type: organizations
+    role_definition: System Administrator
+    team: Platform Engineers
+
+  # Operations Team - Organization Use Role for Platform Organization
+  # Ability to use and execute resources in Platform org
+  - assignment_objects:
+      - name: Platform
+        type: organizations
+    role_definition: Organization Use
+    team: Operations
+
+  # Application Developers - Organization Admin for Applications Organization
+  # Full admin rights within the Applications organization
+  - assignment_objects:
+      - name: Applications
+        type: organizations
+    role_definition: Organization Admin
+    team: Application Developers
+
+
+
+
+...
