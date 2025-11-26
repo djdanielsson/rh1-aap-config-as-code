@@ -36,6 +36,8 @@ spec:
           workspace: shared-workspace
 
       - name: create-aap-instance
+        runAfter:
+        - fetch-source
         workspaces:
         - name: shared-workspace
           workspace: shared-workspace
@@ -56,6 +58,8 @@ spec:
               echo -n $(oc get secret tekton-testing-admin-password -o jsonpath='{.data.password}' | base64 -d) > $(results.aap-admin-password.path)
 
       - name: test-aap-instance
+        runAfter:
+        - create-aap-instance
         workspaces:
         - name: shared-workspace
           workspace: shared-workspace
@@ -70,7 +74,7 @@ spec:
           steps:
           - name: test-aap-instance
             workingDir: $(workspaces.shared-workspace.path)
-            image: registry.redhat.io/rhel9/support-tools #todo find upstream image
+            image: registry.redhat.io/openshift4/ose-tools-rhel9
             script: |
               #!/usr/bin/env sh
               set -eu
