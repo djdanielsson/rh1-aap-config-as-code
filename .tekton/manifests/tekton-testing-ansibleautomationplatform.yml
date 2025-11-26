@@ -8,6 +8,18 @@ spec:
     replicas: 1
   hub:
     file_storage_access_mode: ReadWriteOnce
+    api:
+      replicas: 1
+    content:
+      replicas: 1
+    redis:
+      replicas: 1
+    resource_manager:
+      replicas: 1
+    web:
+      replicas: 1
+    worker:
+      replicas: 1
   image_pull_policy: Always
   ingress_type: Route
   no_log: false
