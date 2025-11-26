@@ -49,7 +49,7 @@ spec:
           steps:
           - name: create-aap-instance
             workingDir: $(workspaces.shared-workspace.path)
-            image: registry.redhat.io/rhel9/support-tools #todo find upstream image
+            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
             script: |
               #!/usr/bin/env sh
               set -eu
