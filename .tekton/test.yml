@@ -1,0 +1,77 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: aap-config-as-code-test
+  annotations:
+    pipelinesascode.tekton.dev/task-1: "[git-clone]"
+    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/max-keep-runs: "3"
+spec:
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  pipelineSpec:
+    workspaces:
+    - name: shared-workspace
+    tasks:
+      - name: fetch-source
+        taskRef:
+          name: git-clone
+        params:
+        - name: url
+          value: "{{ repo_url }}"
+        - name: revision
+          value: "{{ revision }}"
+        - name: verbose
+          value: "true"
+        workspaces:
+        - name: output
+          workspace: shared-workspace
+
+      - name: create-aap-instance
+        workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          results:
+          - name: aap-admin-password
+          steps:
+          - name: create-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/rhel9/support-tools #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              oc create -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc wait --for=condition=Successful=True --timeout=600s ansibleautomationplatform tekton-testing
+              echo -n $(oc get secret tekton-testing-admin-password -o jsonpath='{.data.password}' | base64 -d) > $(workspaces.aap-admin-password.path)
+
+      - name: test-aap-instance
+        workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+        params:
+        - name: aap-admin-password
+          value: $(tasks.create-aap-instance.results.aap-admin-password)
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          params:
+          - name: aap-admin-password
+          steps:
+          - name: test-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/rhel9/support-tools #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              curl -u 'admin:$(params.aap-admin-password)' tekton-testing-api:80/api/gateway/v1/me/ | jq
