@@ -9,13 +9,13 @@ aap_organizations_all:
     max_hosts: 0
     galaxy_credentials:
       - Ansible Galaxy
-    
+
   - name: Platform
     description: Platform and infrastructure automation
     max_hosts: 0
     galaxy_credentials:
       - Ansible Galaxy
-    
+
   - name: Applications
     description: Application deployment and configuration
     max_hosts: 0

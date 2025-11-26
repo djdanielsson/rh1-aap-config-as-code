@@ -44,8 +44,4 @@ gateway_role_team_assignments_all:
         type: organizations
     role_definition: Organization Admin
     team: Application Developers
-
-
-
-
 ...

@@ -7,16 +7,16 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  
+
   vars:
     # Enable validation and diff output
     controller_configuration_async_retries: 60
     controller_configuration_async_delay: 2
-    
+
     # Dispatch role configuration
     # Enable wildcard variable matching for better organization
     dispatch_include_wildcard_vars: true
-    
+
   pre_tasks:
     - name: Display environment information
       ansible.builtin.debug:
@@ -26,7 +26,7 @@
           - "Controller: {{ aap_hostname }}"
           - "Playbook run by: {{ lookup('env', 'USER') | default('pipeline') }}"
       tags: always
-    
+
     - name: Verify AAP connectivity
       ansible.builtin.uri:
         url: "{{ aap_hostname }}/api/v2/ping/"
@@ -36,19 +36,19 @@
       register: ping_result
       failed_when: false
       tags: always
-    
+
     - name: Display AAP version
       ansible.builtin.debug:
         msg: "AAP Version: {{ ping_result.json.version | default('unknown') }}"
       when: ping_result.json is defined
       tags: always
-    
+
     - name: Fail if AAP is unreachable
       ansible.builtin.fail:
         msg: "Cannot reach AAP at {{ aap_hostname }}"
       when: ping_result.status != 200
       tags: always
-  
+
   tasks:
     # Use dispatch role to automatically apply all configurations
     # The dispatch role handles proper ordering and dependency management
@@ -65,7 +65,7 @@
         # to be automatically merged into their base variables
         dispatch_include_wildcard_vars: true
       tags: always
-  
+
   post_tasks:
     - name: Configuration summary
       ansible.builtin.debug:
@@ -74,7 +74,7 @@
           - "Environment: {{ environment_name }}"
           - "Controller: {{ aap_hostname }}"
       tags: always
-    
+
     - name: Trigger project sync (if configured)
       ansible.builtin.include_role:
         name: infra.controller_configuration.project_update

@@ -12,7 +12,7 @@ controller_workflow_job_templates_all:
   - identifier: health-check-pre
     unified_job_template: Production Health Check
     workflow_job_template: Production Deployment Workflow
-    
+
   # Main deployment
   - identifier: deploy
     unified_job_template: Deploy Web Application (Production)
@@ -21,12 +21,12 @@ controller_workflow_job_templates_all:
       - health-check-post
     failure_nodes:
       - rollback
-    
+
   # Post-deployment health check
   - identifier: health-check-post
     unified_job_template: Production Health Check
     workflow_job_template: Production Deployment Workflow
-    
+
   # Rollback on failure
   - identifier: rollback
     unified_job_template: Production Rollback

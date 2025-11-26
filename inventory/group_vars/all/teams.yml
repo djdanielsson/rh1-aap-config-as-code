@@ -10,7 +10,7 @@ aap_teams_all:
       - plat_david
       - plat_emma
       - plat_frank
-  
+
   - name: Application Developers
     description: Application development team
     organization: Applications
@@ -18,7 +18,7 @@ aap_teams_all:
       - app_jack
       - app_kate
       - app_leo
-  
+
   - name: Operations
     description: Operations and SRE team
     organization: Default
@@ -26,7 +26,7 @@ aap_teams_all:
       - ops_grace
       - ops_henry
       - ops_iris
-  
+
   - name: Security Team
     description: Security and compliance team
     organization: Default

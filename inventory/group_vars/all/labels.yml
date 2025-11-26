@@ -5,18 +5,16 @@
 controller_labels_all:
   - name: linux
     organization: Default
-  
+
   - name: windows
     organization: Default
-  
+
   - name: network
     organization: Platform
-  
+
   - name: web
     organization: Applications
-  
+
   - name: database
     organization: Applications
-
-
 ...

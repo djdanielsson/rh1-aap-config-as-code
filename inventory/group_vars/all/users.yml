@@ -12,7 +12,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: sec_bob
     password: "{{ vault_user_password_sec_bob | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: bob@security.local
@@ -21,7 +21,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: sec_charlie
     password: "{{ vault_user_password_sec_charlie | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: charlie@security.local
@@ -40,7 +40,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: plat_emma
     password: "{{ vault_user_password_plat_emma | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: emma@platform.local
@@ -49,7 +49,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: plat_frank
     password: "{{ vault_user_password_plat_frank | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: frank@platform.local
@@ -68,7 +68,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: ops_henry
     password: "{{ vault_user_password_ops_henry | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: henry@operations.local
@@ -77,7 +77,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: ops_iris
     password: "{{ vault_user_password_ops_iris | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: iris@operations.local
@@ -96,7 +96,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: app_kate
     password: "{{ vault_user_password_app_kate | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: kate@applications.local
@@ -105,7 +105,7 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-  
+
   - username: app_leo
     password: "{{ vault_user_password_app_leo | default(lookup('ansible.builtin.password', '/dev/null', chars=['ascii', 'digits', '.,:-_'], length=16)) }}"
     email: leo@applications.local
@@ -114,6 +114,4 @@ aap_user_accounts_all:
     is_superuser: false
     is_system_auditor: false
     update_secrets: false
-
-
 ...

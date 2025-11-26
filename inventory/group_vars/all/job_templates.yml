@@ -14,12 +14,12 @@ controller_job_templates_all:
     credentials:
       - Production SSH Key
       - Production Vault Credentials
-    ask_variables_on_launch: false  # No ad-hoc variables in prod
+    ask_variables_on_launch: false # No ad-hoc variables in prod
     ask_limit_on_launch: false
     extra_vars:
       app_environment: production
       app_version: "{{ app_version }}"
-    diff_mode: true  # Show changes
+    diff_mode: true # Show changes
     timeout: 3600
     verbosity: 0
 
@@ -43,7 +43,7 @@ controller_job_templates_all:
     execution_environment: Web EE (Production)
     credentials:
       - Production SSH Key
-    ask_variables_on_launch: true  # Allow specifying rollback version
+    ask_variables_on_launch: true # Allow specifying rollback version
     survey_enabled: true
     survey_spec:
       name: Rollback Configuration
