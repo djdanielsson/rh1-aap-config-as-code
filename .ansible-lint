@@ -12,6 +12,9 @@ profile: production # min, basic, moderate,safety, shared, production
 exclude_paths:
   - .cache/ # implicit unless exclude_paths is defined in config
   - .github/
+  - .devcontainer/
+  - .pre-commit-config.yaml
+  - devfile.yaml
 
 # parseable: true
 # quiet: true
