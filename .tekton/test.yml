@@ -79,3 +79,22 @@ spec:
               #!/usr/bin/env sh
               set -eu
               curl -u 'admin:$(params.aap-admin-password)' tekton-testing-api:80/api/gateway/v1/me/ | jq
+
+      - name: delete-aap-instance
+        runAfter:
+        - test-aap-instance
+        workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          steps:
+          - name: create-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage
