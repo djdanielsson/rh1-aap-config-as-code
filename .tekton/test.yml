@@ -74,17 +74,21 @@ spec:
           steps:
           - name: test-aap-instance
             workingDir: $(workspaces.shared-workspace.path)
-            image: registry.redhat.io/openshift4/ose-tools-rhel9
+            image: quay.io/igou/rh1-ee:latest
             script: |
               #!/usr/bin/env sh
-              set -eu
-              curl -u 'admin:$(params.aap-admin-password)' tekton-testing-api:80/api/gateway/v1/me/ | jq
+              set -euo pipefail
+              export AAP_HOST="tekton-testing.aap-config-as-code-ci.svc.cluster.local"
+              export AAP_USERNAME="admin"
+              export AAP_PASSWORD=$(cat $(params.aap-admin-password))
+              ansible-playbook -i inventory/inventory_dev.yml playbooks/playbook_ci.yml
+
 
       - name: delete-aap-instance
         runAfter:
         - test-aap-instance
         workspaces:
-        - name: shared-workspace
+        - name: shared-workspacea
           workspace: shared-workspace
         taskSpec:
           workspaces:
