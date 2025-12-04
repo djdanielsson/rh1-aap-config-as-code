@@ -1,0 +1,104 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: aap-config-as-code-test
+  annotations:
+    pipelinesascode.tekton.dev/task-1: "[git-clone]"
+    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    pipelinesascode.tekton.dev/max-keep-runs: "3"
+spec:
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  pipelineSpec:
+    workspaces:
+    - name: shared-workspace
+    tasks:
+      - name: fetch-source
+        taskRef:
+          name: git-clone
+        params:
+        - name: url
+          value: "{{ repo_url }}"
+        - name: revision
+          value: "{{ revision }}"
+        - name: verbose
+          value: "true"
+        workspaces:
+        - name: output
+          workspace: shared-workspace
+
+      - name: create-aap-instance
+        runAfter:
+        - fetch-source
+        workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          results:
+          - name: aap-admin-password
+          steps:
+          - name: create-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              oc create -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc wait --for=condition=Successful=True --timeout=600s ansibleautomationplatform tekton-testing
+              echo -n $(oc get secret tekton-testing-admin-password -o jsonpath='{.data.password}' | base64 -d) > $(results.aap-admin-password.path)
+
+      - name: test-aap-instance
+        runAfter:
+        - create-aap-instance
+        workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+        params:
+        - name: aap-admin-password
+          value: $(tasks.create-aap-instance.results.aap-admin-password)
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          params:
+          - name: aap-admin-password
+          steps:
+          - name: test-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: quay.io/igou/rh1-ee:latest
+            script: |
+              #!/usr/bin/env sh
+              set -euo pipefail
+              export AAP_HOST="tekton-testing.aap-config-as-code-ci.svc.cluster.local"
+              export AAP_USERNAME="admin"
+              export AAP_PASSWORD=$(cat $(params.aap-admin-password))
+              ansible-playbook -i inventory/inventory_dev.yml playbooks/playbook_ci.yml
+
+
+      - name: delete-aap-instance
+        runAfter:
+        - test-aap-instance
+        workspaces:
+        - name: shared-workspacea
+          workspace: shared-workspace
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          steps:
+          - name: create-aap-instance
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage

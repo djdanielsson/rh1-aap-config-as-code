@@ -50,5 +50,5 @@
         #   - controller_projects_apps
         # to be automatically merged into their base variables
         dispatch_include_wildcard_vars: true
-      tags: always...
+      tags: always
 ...
