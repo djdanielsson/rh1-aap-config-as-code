@@ -32,9 +32,9 @@
         support_level: "Self-Support"
 
   tasks:
-    - name: Apply license to AAP
-      ansible.builtin.include_role:
-        name: infra.aap_configuration.controller_license
+    # - name: Apply license to AAP
+    #   ansible.builtin.include_role:
+    #     name: infra.aap_configuration.controller_license
 
     # Use dispatch role to automatically apply all configurations
     # The dispatch role handles proper ordering and dependency management
