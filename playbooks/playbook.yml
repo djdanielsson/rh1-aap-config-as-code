@@ -29,10 +29,14 @@
 
     - name: Verify AAP connectivity
       ansible.builtin.uri:
-        url: "{{ aap_hostname }}/api/v2/ping/"
+        url: "https://{{ aap_hostname }}/api/controller/v2/ping/"
         method: GET
         validate_certs: "{{ aap_validate_certs }}"
         status_code: 200
+        return_content: true
+        body_format: json
+        headers:
+          Content-Type: application/json
       register: ping_result
       failed_when: false
       tags: always

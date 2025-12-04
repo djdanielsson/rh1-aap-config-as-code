@@ -10,7 +10,7 @@ aap_user_accounts_all:
     first_name: Alice
     last_name: Security
     is_superuser: false
-    is_system_auditor: false
+    is_system_auditor: true
     update_secrets: false
 
   - username: sec_bob
@@ -19,7 +19,7 @@ aap_user_accounts_all:
     first_name: Bob
     last_name: Security
     is_superuser: false
-    is_system_auditor: false
+    is_system_auditor: true
     update_secrets: false
 
   - username: sec_charlie
@@ -28,7 +28,7 @@ aap_user_accounts_all:
     first_name: Charlie
     last_name: Security
     is_superuser: false
-    is_system_auditor: false
+    is_system_auditor: true
     update_secrets: false
 
   # Platform Engineers Team Members
@@ -37,7 +37,7 @@ aap_user_accounts_all:
     email: david@platform.local
     first_name: David
     last_name: Engineer
-    is_superuser: false
+    is_superuser: true
     is_system_auditor: false
     update_secrets: false
 
@@ -46,7 +46,7 @@ aap_user_accounts_all:
     email: emma@platform.local
     first_name: Emma
     last_name: Engineer
-    is_superuser: false
+    is_superuser: true
     is_system_auditor: false
     update_secrets: false
 
@@ -55,7 +55,7 @@ aap_user_accounts_all:
     email: frank@platform.local
     first_name: Frank
     last_name: Engineer
-    is_superuser: false
+    is_superuser: true
     is_system_auditor: false
     update_secrets: false
 
@@ -115,3 +115,4 @@ aap_user_accounts_all:
     is_system_auditor: false
     update_secrets: false
 ...
+

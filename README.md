@@ -1,7 +1,7 @@
 # AAP Configuration-as-Code Repository
 
-**Purpose**: Application GitOps for Ansible Automation Platform  
-**Managed By**: Tekton CaC Pipeline  
+**Purpose**: Application GitOps for Ansible Automation Platform
+**Managed By**: Tekton CaC Pipeline
 **Collection**: `infra.aap_configuration`
 
 ## Overview
@@ -157,7 +157,7 @@ controller_projects_all:
   - name: Shared Libraries
     scm_url: https://github.com/org/common.git
 
-# group_vars/aap_dev/projects.yml  
+# group_vars/aap_dev/projects.yml
 controller_projects_dev:
   - name: Dev-Specific Project
     scm_url: https://github.com/org/dev-app.git
@@ -293,8 +293,8 @@ The Tekton pipeline mounts secrets as environment variables before running the p
 
 All configuration must be idempotent - safe to run multiple times:
 
-✅ Configuration is declarative (describe desired state)  
-✅ `infra.aap_configuration` collection handles idempotency  
+✅ Configuration is declarative (describe desired state)
+✅ `infra.aap_configuration` collection handles idempotency
 ✅ Re-running playbook with same config = no changes
 
 ### 3. Environment-Specific Configuration
@@ -321,10 +321,10 @@ Recommended AAP organization layout:
 controller_organizations:
   - name: Platform
     description: Platform automation (infrastructure, networking)
-  
+
   - name: Applications
     description: Application deployment and configuration
-  
+
   - name: Security
     description: Security scanning and compliance
 ```
@@ -502,7 +502,7 @@ If playbook reports changes on every run, check:
 
 ---
 
-**Last Updated**: 2025-10-29  
-**Maintained By**: Platform Team  
+**Last Updated**: 2025-10-29
+**Maintained By**: Platform Team
 **Questions**: File issue in cluster-config repository
 

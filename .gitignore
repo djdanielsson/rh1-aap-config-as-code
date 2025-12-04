@@ -24,6 +24,7 @@ vault-pass.txt
 *-vault-pass*
 ansible.log
 collections/ansible_collections/
+ansible.cfg
 
 # Credentials and secrets
 *-credentials.yml

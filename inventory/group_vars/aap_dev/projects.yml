@@ -11,6 +11,5 @@ controller_projects_dev:
     scm_branch: main
     scm_update_on_launch: true
     scm_delete_on_update: true
-    credential: Dev GitHub Token
-    default_environment: Web EE (Dev)...
+    credential: GitHub Token
 ...

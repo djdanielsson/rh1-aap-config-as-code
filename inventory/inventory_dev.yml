@@ -15,12 +15,12 @@ all:
         localhost:
           ansible_connection: local
       vars:
-        aap_hostname: "{{ lookup('env', 'AAP_HOST') | default('aap-dev-aap-dev.apps.cluster-v9c2l.v9c2l.sandbox3342.opentlc.com') }}"
-        aap_username: "{{ lookup('env', 'AAP_USERNAME') | default('admin') }}"
-        aap_password: "{{ lookup('env', 'AAP_PASSWORD') | default(omit) }}"
-        aap_token: "{{ lookup('env', 'AAP_TOKEN') | default(omit) }}"
+        aap_hostname: "aap-dev-aap-dev.apps.cluster-kcfj8.dynamic.redhatworkshops.io"
+        aap_username: "admin"
+        # aap_token: "{{ lookup('env', 'AAP_TOKEN') | default(omit) }}"
         aap_validate_certs: false
 
         environment_name: dev
         environment_tier: development
+        tag: main
 ...

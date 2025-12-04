@@ -23,4 +23,5 @@ all:
 
         environment_name: prod
         environment_tier: production
+        tag: "{{ lookup('env', 'tag') }}"
 ...

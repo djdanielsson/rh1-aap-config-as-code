@@ -12,6 +12,5 @@ controller_projects_all:
     scm_branch: "{{ tag }}"
     scm_update_on_launch: false # NEVER auto-update in production
     scm_delete_on_update: false
-    credential: Production GitHub Token
-    default_environment: Web EE (Production)...
+    credential: GitHub Token
 ...

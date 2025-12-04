@@ -1,29 +1,29 @@
 ---
-# "{{ env }} Environment Inventories"
+# "{{ environment_name }} Environment Inventories"
 # Using _qa suffix for wildcard merging
 #
 # ⚠️ IMPORTANT: Always use dynamic inventory sources (OCP-V, VMware, etc.)
 # Never define static hosts. See: docs/ANSIBLE-BEST-PRACTICES.md
 
 controller_inventories_all:
-  - name: "{{ env }} Infrastructure"
-    description: "{{ env }} VMs from OpenShift Virtualization"
+  - name: "{{ environment_name }} Infrastructure"
+    description: "{{ environment_name }} VMs from OpenShift Virtualization"
     organization: Platform
     variables:
-      environment: "{{ env }}"
+      environment_nameironment: "{{ environment_name }}"
       ansible_connection: ssh
       ansible_user: ansible
       ansible_python_interpreter: /usr/bin/python3
 
-  - name: "{{ env }} Localhost"
+  - name: "{{ environment_name }} Localhost"
     description: Localhost inventory for API automation
     organization: Default
     variables:
       ansible_connection: local
 
 controller_inventory_sources_qa:
-  - name: "{{ env }} OCP-V VMs"
-    inventory: "{{ env }} Infrastructure"
+  - name: "{{ environment_name }} OCP-V VMs"
+    inventory: "{{ environment_name }} Infrastructure"
     source: "openshift_virtualization"
     source_vars:
       plugin: "kubevirt.core.kubevirt"
@@ -33,9 +33,9 @@ controller_inventory_sources_qa:
       #       - qa-apps
       #     network_name: default
       host_format: "name"
-      label_selector: "environment={{ env }}"
+      label_selector: "environment_nameironment={{ environment_name }}"
       append_base_domain: "qa.internal.example.com"
-    credential: "OCP {{ env }} Cluster"
+    credential: "OCP {{ environment_name }} Cluster"
     update_on_launch: true
     update_on_project_update: true
     update_cache_timeout: 300
@@ -46,13 +46,13 @@ controller_inventory_sources_qa:
 # Inventory Groups (applied to dynamic inventory)
 controller_groups_qa:
   - name: "webservers"
-    inventory: "{{ env }} Infrastructure"
+    inventory: "{{ environment_name }} Infrastructure"
     variables:
       webserver_port: 443
       webserver_ssl_enabled: true
 
   - name: "databases"
-    inventory: "{{ env }} Infrastructure"
+    inventory: "{{ environment_name }} Infrastructure"
     variables:
       database_backup_enabled: true
       database_backup_schedule: "0 3 * * *"

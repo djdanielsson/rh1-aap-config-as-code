@@ -7,27 +7,27 @@
 gateway_role_team_assignments_all:
   # Security Team - Platform Auditor Role
   # Read-only access across the entire platform for auditing purposes
-  - assignment_objects:
-      - name: Default
-        type: organizations
-      - name: Platform
-        type: organizations
-      - name: Applications
-        type: organizations
-    role_definition: Platform Auditor
-    team: Security Team
+  # - assignment_objects:
+  #     - name: Default
+  #       type: organizations
+  #     - name: Platform
+  #       type: organizations
+  #     - name: Applications
+  #       type: organizations
+  #   role_definition: Platform Auditor
+  #   team: Security Team
 
   # Platform Engineers - System Administrator Role
   # Full administrative access to the platform
-  - assignment_objects:
-      - name: Default
-        type: organizations
-      - name: Platform
-        type: organizations
-      - name: Applications
-        type: organizations
-    role_definition: System Administrator
-    team: Platform Engineers
+  # - assignment_objects:
+  #     - name: Default
+  #       type: organizations
+  #     - name: Platform
+  #       type: organizations
+  #     - name: Applications
+  #       type: organizations
+  #   role_definition: System Administrator
+  #   team: Platform Engineers
 
   # Operations Team - Organization Use Role for Platform Organization
   # Ability to use and execute resources in Platform org
@@ -45,3 +45,4 @@ gateway_role_team_assignments_all:
     role_definition: Organization Admin
     team: Application Developers
 ...
+

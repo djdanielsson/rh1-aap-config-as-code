@@ -23,4 +23,5 @@ all:
 
         environment_name: qa
         environment_tier: staging
+        tag: "{{ lookup('env', 'tag') }}"
 ...
