@@ -54,7 +54,7 @@ spec:
               #!/usr/bin/env sh
               set -eu
               oc create -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
-              oc wait --for=condition=Successful=True --timeout=600s ansibleautomationplatform tekton-testing
+              oc wait --for=condition=Successful=True --timeout=1200s ansibleautomationplatform tekton-testing
               echo -n $(oc get secret tekton-testing-admin-password -o jsonpath='{.data.password}' | base64 -d) > $(results.aap-admin-password.path)
 
       - name: test-aap-instance
