@@ -78,7 +78,7 @@ spec:
             script: |
               #!/usr/bin/env sh
               set -euo pipefail
-              export AAP_HOST="http://tekton-testing.aap-config-as-code-ci.svc.cluster.local"
+              export AAP_HOST="http://tekton-testing.ci-rh1-aap-config-as-code.svc.cluster.local"
               export AAP_USERNAME="admin"
               export AAP_PASSWORD=$(params.aap-admin-password)
               ansible-playbook -i inventory/inventory_dev.yml playbooks/playbook_ci.yml
