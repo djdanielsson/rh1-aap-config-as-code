@@ -77,7 +77,7 @@
 
     - name: Trigger project sync (if configured)
       ansible.builtin.include_role:
-        name: infra.controller_configuration.project_update
+        name: infra.aap_configuration.project_update
       when:
         - controller_projects is defined
         - controller_projects_sync_on_completion | default(false)

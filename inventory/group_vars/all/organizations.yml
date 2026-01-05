@@ -1,9 +1,9 @@
 ---
 # Common Organizations across all AAP environments
 # These will be applied to dev, qa, and prod
-# Using _all suffix for wildcard merging
+# Using _all suffix for wildcard merging with dispatch role
 
-aap_organizations_all:
+controller_organizations_all:
   - name: Default
     description: Default organization
     max_hosts: 0
