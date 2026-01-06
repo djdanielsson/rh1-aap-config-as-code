@@ -526,7 +526,7 @@ If playbook reports changes on every run, check:
 
 ### Documentation
 - **Project Workspace**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle
-- **Quickstart Guide**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle/blob/main/specs/001-cloud-native-ansible-lifecycle/quickstart.md
+- **Quickstart Guide**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle/blob/main/docs/GETTING-STARTED.md
 - **Constitution**: https://github.com/djdanielsson/rh1_ansible_code_lifecycle/blob/main/.specify/memory/constitution.md
 
 ### External Resources
