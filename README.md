@@ -245,9 +245,9 @@ Configuration is promoted via **Release Manifest** (not direct push):
 
 ```bash
 # In automation-release-manifest repository
-cat releases/release-v1.0.0.yml
+cat releases/release-26.01.06.0.yml
 ---
-version: "1.0.0"
+version: "26.01.06.0"
 components:
   aap_configuration: "abc123..."  # This commit SHA from aap-config-as-code
   execution_environment: "def456..."
@@ -310,7 +310,7 @@ controller_execution_environments:
 # group_vars/aap_prod.yml
 controller_execution_environments:
   - name: "Web EE"
-    image: "registry.example.com/web-ee:1.0.0"  # Pinned version for prod
+    image: "registry.example.com/web-ee:26.01.06.0"  # Pinned version for prod
 ```
 
 ### 4. Organization Structure
