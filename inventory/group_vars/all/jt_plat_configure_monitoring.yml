@@ -1,0 +1,45 @@
+# jt_plat_configure_monitoring.yml
+# Platform organization monitoring configuration
+# Contains only tightly coupled resources: EE + Project + JT
+# Shared resources (credentials, inventories) are in their respective files
+#
+# Variable suffix: _plat_configure_monitoring (includes org for uniqueness)
+
+# Execution Environment for Platform Monitoring Configuration
+controller_execution_environments_plat_configure_monitoring:
+  - name: "plat_monitoring_ee_26.01.06.0"
+    description: "Platform monitoring and observability execution environment"
+    image: "quay.io/company/plat-ee@sha256:26.01.06.0"
+    pull: "missing"
+    credential: "plat_registry_svc_builder_quay_io"
+
+# Project for Platform Monitoring Configuration
+controller_projects_plat_configure_monitoring:
+  - name: "plat_monitoring_config_playbooks"
+    description: "Platform monitoring configuration playbooks"
+    scm_type: git
+    scm_url: "https://github.com/company/automation-playbooks.git"
+    scm_branch: main
+    scm_clean: true
+    scm_delete_on_update: true
+    credential: "plat_scm_git_github_main"
+    timeout: 0
+    organization: "platform"
+
+# Job Template for Platform Monitoring Configuration
+# References shared resources from credentials.yml and inventories.yml
+controller_templates_plat_configure_monitoring:
+  - name: "plat_configure_monitoring_prod"
+    description: "Configure monitoring agents on production servers"
+    job_type: "run"
+    inventory: "plat_linux_prod"
+    project: "plat_monitoring_config_playbooks"
+    playbook: "playbooks/configure-monitoring.yml"
+    execution_environment: "plat_monitoring_ee_26.01.06.0"
+    credentials:
+      - "plat_machine_ansible_linux_prod"
+    organization: "platform"
+    ask_variables_on_launch: true
+    extra_vars: |
+      ---
+      monitoring_config: "production"

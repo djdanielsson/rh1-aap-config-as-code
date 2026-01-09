@@ -1,0 +1,29 @@
+# schedules.yml
+# Shared schedules for job templates
+# Define all schedules here for centralized management
+#
+# Naming format: {org}_{freq}_{jt_action}_{jt_target}_{variant}
+# Variable suffix: _all (shared across all JTs)
+
+controller_schedules_all:
+  # =============================================================================
+  # Operations Organization Schedules
+  # =============================================================================
+
+  # Database backup schedules
+  - name: "ops_daily_backup_database_full"
+    description: "Daily trigger for full database backup at 2 AM ET"
+    unified_job_template: "ops_backup_database_full_daily"
+    rrule: "DTSTART;TZID=America/New_York:20240101T020000 RRULE:FREQ=DAILY;INTERVAL=1"
+    enabled: true
+
+  # =============================================================================
+  # Engineering Organization Schedules
+  # =============================================================================
+
+  # Staging deployment schedules (example)
+  # - name: "eng_nightly_deploy_webapp_staging"
+  #   description: "Nightly staging deployment at 11 PM ET"
+  #   unified_job_template: "eng_deploy_webapp_staging"
+  #   rrule: "DTSTART;TZID=America/New_York:20240101T230000 RRULE:FREQ=DAILY;INTERVAL=1"
+  #   enabled: true

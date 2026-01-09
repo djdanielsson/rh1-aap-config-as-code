@@ -1,0 +1,57 @@
+# inventories.yml
+# Shared inventories used across multiple job templates
+# Define each inventory once here; JT files reference them by name
+#
+# Naming format: {org}_{target}_{scope}
+# Variable suffix: _all (shared across all JTs)
+
+controller_inventories_all:
+  - name: "plat_webservers_prod"
+    description: "Platform production web servers"
+    organization: "platform"
+    variables: |
+      ---
+      webserver_port: 80
+      webserver_configure_firewall: true
+      environment: production
+
+  - name: "plat_webservers_nonprod"
+    description: "Platform non-production web servers"
+    organization: "platform"
+    variables: |
+      ---
+      webserver_port: 80
+      webserver_configure_firewall: false
+      environment: nonprod
+
+  - name: "plat_databases_prod"
+    description: "Platform production database servers"
+    organization: "platform"
+    variables: |
+      ---
+      database_port: 5432
+      database_configure_firewall: true
+      environment: production
+
+  - name: "plat_databases_nonprod"
+    description: "Platform non-production database servers"
+    organization: "platform"
+    variables: |
+      ---
+      database_port: 5432
+      database_configure_firewall: false
+      environment: nonprod
+
+  - name: "plat_linux_prod"
+    description: "Platform all production Linux servers"
+    organization: "platform"
+    variables: |
+      ---
+      environment: production
+
+  - name: "plat_linux_nonprod"
+    description: "Platform all non-production Linux servers"
+    organization: "platform"
+    variables: |
+      ---
+      environment: nonprod
