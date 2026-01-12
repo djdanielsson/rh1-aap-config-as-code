@@ -38,7 +38,7 @@ controller_templates_plat_configure_database:
     playbook: "playbooks/configure-database.yml"
     execution_environment: "plat_database_admin_ee_26.01.06.0"
     credentials:
-      - "plat_machine_ansible_linux_prod"
+      - "plat_machine_svc_ansible_linux"
     organization: "platform"
     ask_variables_on_launch: true
     extra_vars: |

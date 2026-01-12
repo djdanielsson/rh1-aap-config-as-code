@@ -11,7 +11,8 @@ controller_schedules_all:
   - name: "ops_daily_backup_database_full"
     description: "Daily trigger for full database backup at 2 AM ET"
     unified_job_template: "ops_backup_database_full_daily"
-    rrule: "DTSTART;TZID=America/New_York:20240101T020000 RRULE:FREQ=DAILY;INTERVAL=1"
+    rrule: >-
+      DTSTART;TZID=America/New_York:20240101T020000 RRULE:FREQ=DAILY;INTERVAL=1
     enabled: true
 
 ...
