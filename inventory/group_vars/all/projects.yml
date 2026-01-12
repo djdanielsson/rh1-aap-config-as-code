@@ -1,0 +1,13 @@
+---
+controller_projects_all:
+  - name: "plat_aap_inv_config"
+    description: "Platform database configuration playbooks"
+    scm_type: git
+    scm_url: "https://github.com/djdanielsson/rh1-aap-config-as-code.git"
+    scm_branch: main
+    scm_clean: true
+    scm_delete_on_update: true
+    credential: "plat_scm_git_github_main"
+    timeout: 0
+    organization: "platform"
+...

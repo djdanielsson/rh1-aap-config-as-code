@@ -1,3 +1,4 @@
+---
 # jt_plat_configure_monitoring.yml
 # Platform organization monitoring configuration
 # Contains only tightly coupled resources: EE + Project + JT
@@ -43,3 +44,5 @@ controller_templates_plat_configure_monitoring:
     extra_vars: |
       ---
       monitoring_config: "production"
+
+...

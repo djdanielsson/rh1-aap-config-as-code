@@ -1,11 +1,11 @@
 ---
 controller_inventory_sources_all:
-  - name: config_as_code_source
-    organization: config_as_code
+  - name: platform_aap_{{ env }}_source
+    organization: platform
     source: scm
-    source_project: config_as_code
+    source_project: plat_aap_inv_config
     source_path: inventory/inventory_{{ env }}.yml
-    inventory: config_as_code
+    inventory: "plat_aap_{{ env }}"
     credential: ""
     overwrite: true
     overwrite_vars: true

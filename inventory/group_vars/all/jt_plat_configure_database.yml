@@ -1,3 +1,4 @@
+---
 # jt_plat_configure_database.yml
 # Platform organization PostgreSQL database configuration
 # Contains only tightly coupled resources: EE + Project + JT
@@ -46,3 +47,5 @@ controller_templates_plat_configure_database:
       database_user: "app_user"
       database_port: 5432
       database_configure_firewall: true
+
+...

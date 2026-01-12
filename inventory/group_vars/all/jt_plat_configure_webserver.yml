@@ -1,3 +1,4 @@
+---
 # jt_plat_configure_webserver.yml
 # Platform organization web server configuration
 # Contains only tightly coupled resources: EE + Project + JT
@@ -46,3 +47,7 @@ controller_templates_plat_configure_webserver:
       webserver_document_root: "/var/www/html"
       webserver_configure_firewall: true
       webserver_verify_response: true
+
+...
+
+...
