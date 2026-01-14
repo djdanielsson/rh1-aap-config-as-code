@@ -30,10 +30,10 @@ controller_projects_plat_configure_database:
 # Job Template for Platform Database Configuration
 # References shared resources from credentials.yml and inventories.yml
 controller_templates_plat_configure_database:
-  - name: "plat_configure_database_prod"
-    description: "Configure PostgreSQL database on production servers"
+  - name: "plat_configure_database_{{ env }}"
+    description: "Configure PostgreSQL database on {{ env }} servers"
     job_type: "run"
-    inventory: "plat_databases_prod"
+    inventory: "plat_databases_{{ env }}"
     project: "plat_database_config_playbooks"
     playbook: "playbooks/configure-database.yml"
     execution_environment: "plat_database_admin_ee_26.01.06.0"
@@ -41,8 +41,7 @@ controller_templates_plat_configure_database:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"
     ask_variables_on_launch: true
-    extra_vars: |
-      ---
+    extra_vars:
       database_name: "appdb"
       database_user: "app_user"
       database_port: 5432
