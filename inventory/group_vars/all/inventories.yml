@@ -10,8 +10,7 @@ controller_inventories_all:
   - name: "plat_webservers_{{ env }}"
     description: "Platform {{ env }} web servers"
     organization: "platform"
-    variables: |
-      ---
+    variables:
       webserver_port: 80
       webserver_configure_firewall: true
       environment: {{ env }}
@@ -19,8 +18,7 @@ controller_inventories_all:
   - name: "plat_databases_{{ env }}"
     description: "Platform {{ env }} database servers"
     organization: "platform"
-    variables: |
-      ---
+    variables:
       database_port: 5432
       database_configure_firewall: true
       environment: {{ env }}
@@ -28,15 +26,13 @@ controller_inventories_all:
   - name: "plat_linux_{{ env }}"
     description: "Platform {{ env }} Linux servers"
     organization: "platform"
-    variables: |
-      ---
+    variables:
       environment: {{ env }}
 
   - name: "plat_aap_{{ env }}"
     description: "Platform {{ env }} AAP servers"
     organization: "platform"
-    variables: |
-      ---
+    variables:
       environment: {{ env }}
 
 ...
