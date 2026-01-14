@@ -36,6 +36,8 @@ spec:
           workspace: shared-workspace
 
       - name: clean-old-resources
+        runAfter:
+        - fetch-source
         workspaces:
         - name: shared-workspacea
           workspace: shared-workspace
@@ -49,12 +51,13 @@ spec:
             script: |
               #!/usr/bin/env sh
               set -eu
-              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml || true
-              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage || true
+              oc delete --ignore-not-found=true -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc delete --ignore-not-found=true pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage
+              oc delete secret -l app.kubernetes.io/component=automationcontroller
 
       - name: create-aap-instance
         runAfter:
-        - fetch-source
+        - clean-old-resources
         workspaces:
         - name: shared-workspace
           workspace: shared-workspace
