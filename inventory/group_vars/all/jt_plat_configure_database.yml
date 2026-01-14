@@ -23,7 +23,7 @@ controller_projects_plat_configure_database:
     scm_branch: main
     scm_clean: true
     scm_delete_on_update: true
-    credential: "plat_scm_git_github_main"
+    credential: "plat_scm_djdanielsson_github"
     timeout: 0
     organization: "platform"
 
