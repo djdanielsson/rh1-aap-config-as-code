@@ -83,10 +83,8 @@ spec:
               export AAP_PASSWORD=$(params.aap-admin-password)
               ansible-playbook -i inventory/inventory_dev.yml playbooks/playbook_ci.yml
 
-
-      - name: delete-aap-instance
-        runAfter:
-        - test-aap-instance
+    finally:
+      - name: cleanup
         workspaces:
         - name: shared-workspacea
           workspace: shared-workspace
@@ -100,5 +98,5 @@ spec:
             script: |
               #!/usr/bin/env sh
               set -eu
-              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
-              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage
+              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml || true
+              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage || true
