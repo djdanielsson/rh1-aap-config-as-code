@@ -19,7 +19,7 @@ controller_projects_plat_configure_monitoring:
   - name: "plat_monitoring_config_playbooks"
     description: "Platform monitoring configuration playbooks"
     scm_type: git
-    scm_url: "https://github.com/company/automation-playbooks.git"
+    scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
     scm_branch: main
     scm_clean: true
     scm_delete_on_update: true
