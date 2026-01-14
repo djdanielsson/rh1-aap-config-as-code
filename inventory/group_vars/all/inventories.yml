@@ -13,7 +13,7 @@ controller_inventories_all:
     variables:
       webserver_port: 80
       webserver_configure_firewall: true
-      environment: {{ env }}
+      environment: "{{ env }}"
 
   - name: "plat_databases_{{ env }}"
     description: "Platform {{ env }} database servers"
