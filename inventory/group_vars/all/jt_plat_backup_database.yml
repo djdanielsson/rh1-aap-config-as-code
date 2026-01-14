@@ -1,0 +1,50 @@
+---
+# jt_plat_backup_database.yml
+# Platform organization PostgreSQL database configuration
+# Contains only tightly coupled resources: EE + Project + JT
+# Shared resources (credentials, inventories) are in their respective files
+#
+# Variable suffix: _plat_backup_database (includes org for uniqueness)
+
+# Execution Environment for Platform Database Configuration
+controller_execution_environments_plat_backup_database:
+  - name: "plat_database_admin_ee_26.01.06.0"
+    description: "Platform database administration execution environment"
+    image: "quay.io/company/plat-ee:26.01.06.0"
+    pull: "missing"
+    credential: "plat_registry_svc_builder_quay_io"
+
+# Project for Platform Database Configuration
+controller_projects_plat_backup_database:
+  - name: "plat_database_backup_playbooks"
+    description: "Platform database backup playbooks"
+    scm_type: git
+    scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
+    scm_branch: main
+    scm_clean: true
+    scm_delete_on_update: true
+    credential: "plat_scm_djdanielsson_github"
+    timeout: 0
+    organization: "platform"
+
+# Job Template for Platform Database Configuration
+# References shared resources from credentials.yml and inventories.yml
+controller_templates_plat_backup_database:
+  - name: "plat_backup_database_{{ env }}"
+    description: "Backup PostgreSQL database on {{ env }} servers"
+    job_type: "run"
+    inventory: "plat_databases_{{ env }}"
+    project: "plat_database_backup_playbooks"
+    playbook: "playbooks/backup-database.yml"
+    execution_environment: "plat_database_admin_ee_26.01.06.0"
+    credentials:
+      - "plat_machine_svc_ansible_linux"
+    organization: "platform"
+    ask_variables_on_launch: true
+    extra_vars:
+      database_name: "appdb"
+      database_user: "app_user"
+      database_port: 5432
+      database_backup_firewall: true
+
+...
