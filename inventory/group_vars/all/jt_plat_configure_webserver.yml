@@ -10,7 +10,7 @@
 controller_execution_environments_plat_configure_webserver:
   - name: "plat_automation_ee_26.01.06.0"
     description: "Platform automation execution environment"
-    image: "quay.io/company/plat-ee@sha256:26.01.06.0"
+    image: "quay.io/company/plat-ee:26.01.06.0"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
