@@ -35,9 +35,29 @@ spec:
         - name: output
           workspace: shared-workspace
 
-      - name: create-aap-instance
+      - name: clean-old-resources
         runAfter:
         - fetch-source
+        workspaces:
+        - name: shared-workspacea
+          workspace: shared-workspace
+        taskSpec:
+          workspaces:
+          - name: shared-workspace
+          steps:
+          - name: clean-old-resources
+            workingDir: $(workspaces.shared-workspace.path)
+            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              oc delete --ignore-not-found=true -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml
+              oc delete --ignore-not-found=true pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage
+              oc delete secret -l app.kubernetes.io/component=automationcontroller
+
+      - name: create-aap-instance
+        runAfter:
+        - clean-old-resources
         workspaces:
         - name: shared-workspace
           workspace: shared-workspace
@@ -82,21 +102,3 @@ spec:
               export AAP_USERNAME="admin"
               export AAP_PASSWORD=$(params.aap-admin-password)
               ansible-playbook -i inventory/inventory_dev.yml playbooks/playbook_ci.yml
-
-    finally:
-      - name: cleanup
-        workspaces:
-        - name: shared-workspacea
-          workspace: shared-workspace
-        taskSpec:
-          workspaces:
-          - name: shared-workspace
-          steps:
-          - name: create-aap-instance
-            workingDir: $(workspaces.shared-workspace.path)
-            image: registry.redhat.io/openshift4/ose-tools-rhel9 #todo find upstream image
-            script: |
-              #!/usr/bin/env sh
-              set -eu
-              oc delete -f .tekton/manifests/tekton-testing-ansibleautomationplatform.yml || true
-              oc delete pvc postgres-15-tekton-testing-postgres-15-0 tekton-testing-hub-file-storage || true
