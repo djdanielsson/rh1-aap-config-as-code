@@ -21,18 +21,18 @@ controller_inventories_all:
     variables:
       database_port: 5432
       database_configure_firewall: true
-      environment: {{ env }}
+      environment: "{{ env }}"
 
   - name: "plat_linux_{{ env }}"
     description: "Platform {{ env }} Linux servers"
     organization: "platform"
     variables:
-      environment: {{ env }}
+      environment: "{{ env }}"
 
   - name: "plat_aap_{{ env }}"
     description: "Platform {{ env }} AAP servers"
     organization: "platform"
     variables:
-      environment: {{ env }}
+      environment: "{{ env }}"
 
 ...
