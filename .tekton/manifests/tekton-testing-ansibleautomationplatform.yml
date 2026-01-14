@@ -7,6 +7,8 @@ spec:
     log_level: INFO
     replicas: 1
   hub:
+    node_selector: "app: hub"
+    storage_type: file
     file_storage_access_mode: ReadWriteOnce
     api:
       replicas: 1
