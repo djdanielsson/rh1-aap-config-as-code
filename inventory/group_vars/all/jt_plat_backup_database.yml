@@ -1,34 +1,38 @@
 ---
 # jt_plat_backup_database.yml
-# Platform organization PostgreSQL database configuration
-# Contains only tightly coupled resources: EE + Project + JT
-# Shared resources (credentials, inventories) are in their respective files
+# Platform organization PostgreSQL database backup
+# Contains: EE + Project + JT (tightly coupled resources)
 #
-# Variable suffix: _plat_backup_database (includes org for uniqueness)
+# RELEASE VERSIONING:
+# The promote pipeline updates scm_branch and image tags based on the release manifest.
+#
+# Version mapping in release manifest:
+#   version_mappings.jt_plat_backup_database.project_version
+#   version_mappings.jt_plat_backup_database.ee_version
 
-# Execution Environment for Platform Database Configuration
+# Execution Environment
 controller_execution_environments_plat_backup_database:
-  - name: "plat_database_admin_ee_26.01.06.0"
-    description: "Platform database administration execution environment"
-    image: "quay.io/company/plat-ee:26.01.06.0"
+  - name: "plat_database_backup_ee_{{ version_mappings['jt_plat_backup_database'] }}"
+    description: "Platform database backup execution environment"
+    image: "quay.io/myorg/custom-ee:{{ version_mappings['jt_plat_backup_database'] }}"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
-# Project for Platform Database Configuration
+# Project
 controller_projects_plat_backup_database:
   - name: "plat_database_backup_playbooks"
     description: "Platform database backup playbooks"
     scm_type: git
     scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
-    scm_branch: main
+    scm_branch: "{{ version_mappings['jt_plat_backup_database'] }}"
     scm_clean: true
     scm_delete_on_update: true
+    scm_update_on_launch: false
     credential: "plat_scm_djdanielsson_github"
     timeout: 0
     organization: "platform"
 
-# Job Template for Platform Database Configuration
-# References shared resources from credentials.yml and inventories.yml
+# Job Template
 controller_templates_plat_backup_database:
   - name: "plat_backup_database_{{ env }}"
     description: "Backup PostgreSQL database on {{ env }} servers"
@@ -36,7 +40,7 @@ controller_templates_plat_backup_database:
     inventory: "plat_databases_{{ env }}"
     project: "plat_database_backup_playbooks"
     playbook: "playbooks/backup-database.yml"
-    execution_environment: "plat_database_admin_ee_26.01.06.0"
+    execution_environment: "plat_database_backup_ee_{{ version_mappings['jt_plat_backup_database'] }}"
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"
@@ -46,5 +50,4 @@ controller_templates_plat_backup_database:
       database_user: "app_user"
       database_port: 5432
       database_backup_firewall: true
-
 ...

@@ -1,34 +1,38 @@
 ---
 # jt_plat_configure_monitoring.yml
 # Platform organization monitoring configuration
-# Contains only tightly coupled resources: EE + Project + JT
-# Shared resources (credentials, inventories) are in their respective files
+# Contains: EE + Project + JT (tightly coupled resources)
 #
-# Variable suffix: _plat_configure_monitoring (includes org for uniqueness)
+# RELEASE VERSIONING:
+# The promote pipeline updates scm_branch and image tags based on the release manifest.
+#
+# Version mapping in release manifest:
+#   version_mappings.jt_plat_configure_monitoring.project_version
+#   version_mappings.jt_plat_configure_monitoring.ee_version
 
-# Execution Environment for Platform Monitoring Configuration
+# Execution Environment
 controller_execution_environments_plat_configure_monitoring:
-  - name: "plat_monitoring_ee_26.01.06.0"
+  - name: "plat_monitoring_ee_{{ version_mappings['jt_plat_configure_monitoring'] }}"
     description: "Platform monitoring and observability execution environment"
-    image: "quay.io/company/plat-ee:26.01.06.0"
+    image: "quay.io/myorg/custom-ee:{{ version_mappings['jt_plat_configure_monitoring'] }}"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
-# Project for Platform Monitoring Configuration
+# Project
 controller_projects_plat_configure_monitoring:
   - name: "plat_monitoring_config_playbooks"
     description: "Platform monitoring configuration playbooks"
     scm_type: git
     scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
-    scm_branch: main
+    scm_branch: "{{ version_mappings['jt_plat_configure_monitoring'] }}"
     scm_clean: true
     scm_delete_on_update: true
+    scm_update_on_launch: false
     credential: "plat_scm_djdanielsson_github"
     timeout: 0
     organization: "platform"
 
-# Job Template for Platform Monitoring Configuration
-# References shared resources from credentials.yml and inventories.yml
+# Job Template
 controller_templates_plat_configure_monitoring:
   - name: "plat_configure_monitoring_{{ env }}"
     description: "Configure monitoring agents on {{ env }} servers"
@@ -36,12 +40,11 @@ controller_templates_plat_configure_monitoring:
     inventory: "plat_linux_{{ env }}"
     project: "plat_monitoring_config_playbooks"
     playbook: "playbooks/configure-monitoring.yml"
-    execution_environment: "plat_monitoring_ee_26.01.06.0"
+    execution_environment: "plat_monitoring_ee_{{ version_mappings['jt_plat_configure_monitoring'] }}"
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"
     ask_variables_on_launch: true
     extra_vars:
       monitoring_config: "{{ env }}"
-
 ...
