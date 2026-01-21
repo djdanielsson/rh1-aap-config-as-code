@@ -16,39 +16,6 @@
     # Dispatch role configuration
     # Enable wildcard variable matching for better organization
     dispatch_include_wildcard_vars: true
-
-  pre_tasks:
-    - name: Display environment information
-      ansible.builtin.debug:
-        msg:
-          - "Environment: {{ environment_name }}"
-          - "Tier: {{ environment_tier }}"
-          - "Controller: {{ aap_hostname }}"
-          - "Playbook run by: {{ lookup('env', 'USER') | default('pipeline') }}"
-      tags: always
-
-    - name: Verify AAP connectivity
-      ansible.builtin.uri:
-        url: "{{ aap_hostname }}/api/v2/ping/"
-        method: GET
-        validate_certs: "{{ aap_validate_certs }}"
-        status_code: 200
-      register: ping_result
-      failed_when: false
-      tags: always
-
-    - name: Display AAP version
-      ansible.builtin.debug:
-        msg: "AAP Version: {{ ping_result.json.version | default('unknown') }}"
-      when: ping_result.json is defined
-      tags: always
-
-    - name: Fail if AAP is unreachable
-      ansible.builtin.fail:
-        msg: "Cannot reach AAP at {{ aap_hostname }}"
-      when: ping_result.status != 200
-      tags: always
-
   tasks:
     # Use dispatch role to automatically apply all configurations
     # The dispatch role handles proper ordering and dependency management
@@ -56,30 +23,8 @@
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
       vars:
-        # Enable wildcard variable matching
-        # This allows variables like:
-        #   - controller_job_templates_web
-        #   - controller_job_templates_database
-        #   - controller_projects_platform
-        #   - controller_projects_apps
-        # to be automatically merged into their base variables
         dispatch_include_wildcard_vars: true
       tags: always
 
-  post_tasks:
-    - name: Configuration summary
-      ansible.builtin.debug:
-        msg:
-          - "✓ Configuration applied successfully"
-          - "Environment: {{ environment_name }}"
-          - "Controller: {{ aap_hostname }}"
-      tags: always
 
-    - name: Trigger project sync (if configured)
-      ansible.builtin.include_role:
-        name: infra.aap_configuration.project_update
-      when:
-        - controller_projects is defined
-        - controller_projects_sync_on_completion | default(false)
-      tags: project_sync
 ...
