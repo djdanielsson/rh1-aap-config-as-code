@@ -40,7 +40,7 @@ controller_templates_plat_configure_database:
     inventory: "plat_databases_{{ env }}"
     project: "plat_database_config_playbooks"
     playbook: "playbooks/configure-database.yml"
-    execution_environment: "plat_database_admin_ee_{{ jt_plat_configure_database }}"  
+    execution_environment: "plat_database_admin_ee_{{ jt_plat_configure_database | default(ee_image) }}"  
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"
