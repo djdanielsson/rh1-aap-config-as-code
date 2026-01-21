@@ -14,10 +14,10 @@
 
 # Execution Environment
 controller_execution_environments_plat_configure_webserver:
-  - name: "plat_automation_ee_{{ version_mappings['jt_plat_configure_webserver'] }}"
+  - name: "plat_automation_ee_{{ jt_plat_configure_webserver | default(ee_image) }}"
     description: "Platform automation execution environment"
     # Updated by promote pipeline with release tag
-    image: "quay.io/myorg/custom-ee:{{ version_mappings['jt_plat_configure_webserver'] }}"
+    image: "quay.io/myorg/custom-ee:{{ jt_plat_configure_webserver | default(ee_image) }}"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
@@ -28,7 +28,7 @@ controller_projects_plat_configure_webserver:
     scm_type: git
     scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
     # Updated by promote pipeline with release tag (or 'main' for dev)
-    scm_branch: "{{ version_mappings['jt_plat_configure_webserver'] }}"
+    scm_branch: "{{ jt_plat_configure_webserver | default(scm_branch) }}"
     scm_clean: true
     scm_delete_on_update: true
     # Set to true for dev, false for qa/prod
@@ -45,7 +45,7 @@ controller_templates_plat_configure_webserver:
     inventory: "plat_webservers_{{ env }}"
     project: "plat_webserver_config_playbooks"
     playbook: "playbooks/configure-webserver.yml"
-    execution_environment: "plat_automation_ee_{{ version_mappings['jt_plat_configure_webserver'] }}"
+    execution_environment: "plat_automation_ee_{{ jt_plat_configure_webserver | default(ee_image) }}"
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"

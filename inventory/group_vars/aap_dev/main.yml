@@ -1,3 +1,5 @@
 ---
 env: dev
+scm_branch: main
+ee_image: latest
 ...

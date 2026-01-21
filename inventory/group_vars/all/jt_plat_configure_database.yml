@@ -12,9 +12,9 @@
 
 # Execution Environment
 controller_execution_environments_plat_configure_database:
-  - name: "plat_database_admin_ee_{{ version_mappings['jt_plat_configure_database'] }}"
+  - name: "plat_database_admin_ee_{{ jt_plat_configure_database | default(ee_image) }}"
     description: "Platform database administration execution environment"
-    image: "quay.io/myorg/custom-ee:{{ version_mappings['jt_plat_configure_database'] }}"
+    image: "quay.io/myorg/custom-ee:{{ jt_plat_configure_database | default(ee_image) }}"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
@@ -24,7 +24,7 @@ controller_projects_plat_configure_database:
     description: "Platform database configuration playbooks"
     scm_type: git
     scm_url: "https://github.com/djdanielsson/rh1-automation-playbooks.git"
-    scm_branch: "{{ version_mappings['jt_plat_configure_database'] }}"
+    scm_branch: "{{ jt_plat_configure_database | default(scm_branch) }}"
     scm_clean: true
     scm_delete_on_update: true
     scm_update_on_launch: false
@@ -40,7 +40,7 @@ controller_templates_plat_configure_database:
     inventory: "plat_databases_{{ env }}"
     project: "plat_database_config_playbooks"
     playbook: "playbooks/configure-database.yml"
-    execution_environment: "plat_database_admin_ee_{{ version_mappings['jt_plat_configure_database'] }}"
+    execution_environment: "plat_database_admin_ee_{{ jt_plat_configure_database }}"  
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"
