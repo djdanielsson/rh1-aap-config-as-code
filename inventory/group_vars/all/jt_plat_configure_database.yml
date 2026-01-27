@@ -1,15 +1,4 @@
 ---
-# jt_plat_configure_database.yml
-# Platform organization PostgreSQL database configuration
-# Contains: EE + Project + JT (tightly coupled resources)
-#
-# RELEASE VERSIONING:
-# The promote pipeline updates scm_branch and image tags based on the release manifest.
-#
-# Version mapping in release manifest:
-#   version_mappings.jt_plat_configure_database.project_version
-#   version_mappings.jt_plat_configure_database.ee_version
-
 # Execution Environment
 controller_execution_environments_plat_configure_database:
   - name: "plat_database_admin_ee_{{ jt_plat_configure_database | default(ee_image) }}"
@@ -40,7 +29,7 @@ controller_templates_plat_configure_database:
     inventory: "plat_databases_{{ env }}"
     project: "plat_database_config_playbooks"
     playbook: "playbooks/configure-database.yml"
-    execution_environment: "plat_database_admin_ee_{{ jt_plat_configure_database | default(ee_image) }}"  
+    execution_environment: "plat_database_admin_ee_{{ jt_plat_configure_database | default(ee_image) }}"
     credentials:
       - "plat_machine_svc_ansible_linux"
     organization: "platform"

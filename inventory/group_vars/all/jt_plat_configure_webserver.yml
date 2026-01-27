@@ -1,17 +1,4 @@
 ---
-# jt_plat_configure_webserver.yml
-# Platform organization web server configuration
-# Contains: EE + Project + JT (tightly coupled resources)
-#
-# RELEASE VERSIONING:
-# The promote pipeline updates scm_branch and image tags based on the release manifest.
-# For dev: uses main/latest, scm_update_on_launch: true
-# For qa/prod: uses release tag, scm_update_on_launch: false
-#
-# Version mapping in release manifest:
-#   version_mappings.jt_plat_configure_webserver.project_version
-#   version_mappings.jt_plat_configure_webserver.ee_version
-
 # Execution Environment
 controller_execution_environments_plat_configure_webserver:
   - name: "plat_automation_ee_{{ jt_plat_configure_webserver | default(ee_image) }}"

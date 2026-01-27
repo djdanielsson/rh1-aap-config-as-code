@@ -1,6 +1,13 @@
 ---
+# inventories.yml
+# Shared inventories used across multiple job templates
+# Define each inventory once here; JT files reference them by name
+#
+# Naming format: {org}_{target}_{scope}_{source}
+# Variable suffix: _all (shared across all JTs)
+
 controller_inventory_sources_all:
-  - name: platform_aap_{{ env }}_source
+  - name: platform_aap_{{ env }}_scm
     organization: platform
     source: scm
     source_project: plat_aap_inv_config

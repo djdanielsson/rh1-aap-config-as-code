@@ -1,15 +1,4 @@
 ---
-# jt_plat_configure_monitoring.yml
-# Platform organization monitoring configuration
-# Contains: EE + Project + JT (tightly coupled resources)
-#
-# RELEASE VERSIONING:
-# The promote pipeline updates scm_branch and image tags based on the release manifest.
-#
-# Version mapping in release manifest:
-#   version_mappings.jt_plat_configure_monitoring.project_version
-#   version_mappings.jt_plat_configure_monitoring.ee_version
-
 # Execution Environment
 controller_execution_environments_plat_configure_monitoring:
   - name: "plat_monitoring_ee_{{ jt_plat_configure_monitoring | default(ee_image) }}"
