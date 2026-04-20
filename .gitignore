@@ -148,3 +148,8 @@ site/
 # Keep encrypted vault files (they're safe to commit)
 !*-vault.yml
 !*-vault.yaml
+.env
+.env.*
+credentials.json
+.env.local
+.env.production
