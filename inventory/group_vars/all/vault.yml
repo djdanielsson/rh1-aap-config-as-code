@@ -1,0 +1,10 @@
+---
+# Vault connection settings per environment (OIDC JIT - no long-lived tokens)
+vault_addr: "http://vault.hashicorp-vault.svc:8200"
+vault_jwt_path: "jwt"
+vault_api_version: "v2"
+
+vault_oidc_roles:
+  dev: "rh1-aap-dev-jt"
+  qa: "rh1-aap-qa-jt"
+  prod: "rh1-aap-prod-jt"

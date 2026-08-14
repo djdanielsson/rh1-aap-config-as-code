@@ -1,0 +1,7 @@
+---
+# Dev allows unsigned content during development; signing is still validated in release pipelines
+controller_settings:
+  - name: GALAXY_SIGNATURE_VERIFICATION
+    value: "True"
+  - name: GALAXY_REQUIRED_VALID_SIGNATURE_COUNT
+    value: "1"

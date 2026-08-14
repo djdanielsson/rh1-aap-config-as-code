@@ -1,0 +1,3 @@
+---
+# Controller settings for content signature enforcement on AAP
+controller_settings: "{{ controller_settings_content_signing }}"

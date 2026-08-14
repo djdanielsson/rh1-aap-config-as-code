@@ -1,0 +1,25 @@
+---
+# Populated by promotion pipeline from signed release manifest
+# Example structure - values replaced at deploy time from releases/release-<version>.yml
+release_version: null
+release_components: {}
+release_signatures:
+  manifest_signed: false
+
+# Derived EE image reference for digest-pinned deployments
+ee_image_from_manifest: >-
+  {{
+    (
+      release_components.execution_environment.registry ~ '/' ~
+      release_components.execution_environment.repository ~ '@' ~
+      release_components.execution_environment.digest
+    )
+    if (
+      content_signing_use_digest_pins | default(false)
+      and release_components.execution_environment.digest is defined
+      and release_components.execution_environment.digest is match('^sha256:[a-f0-9]{64}$')
+    )
+    else (
+      'quay.io/igou/rh1-ee:' ~ (release_version | default(ee_image))
+    )
+  }}
