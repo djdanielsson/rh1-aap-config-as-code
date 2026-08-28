@@ -3,8 +3,8 @@
 controller_execution_environments_plat_configure_webserver:
   - name: "plat_automation_ee_{{ jt_plat_configure_webserver | default(ee_image) }}"
     description: "Platform automation execution environment"
-    # Updated by promote pipeline with release tag
-    image: "quay.io/myorg/custom-ee:{{ jt_plat_configure_webserver | default(ee_image) }}"
+    # Digest-pinned when signed release manifest is present; otherwise tag-based
+    image: "{{ ee_image_from_manifest | default('quay.io/igou/rh1-ee:' ~ (jt_plat_configure_webserver | default(ee_image))) }}"
     pull: "missing"
     credential: "plat_registry_svc_builder_quay_io"
 
@@ -35,6 +35,7 @@ controller_templates_plat_configure_webserver:
     execution_environment: "plat_automation_ee_{{ jt_plat_configure_webserver | default(ee_image) }}"
     credentials:
       - "plat_machine_svc_ansible_linux"
+      - "sec_vault_value_demo_{{ env }}"
     organization: "platform"
     ask_variables_on_launch: true
     extra_vars:

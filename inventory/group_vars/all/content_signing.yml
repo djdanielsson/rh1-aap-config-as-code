@@ -1,0 +1,13 @@
+---
+# Content signature enforcement settings applied via infra.aap_configuration
+controller_settings_content_signing:
+  - name: GALAXY_SIGNATURE_VERIFICATION
+    value: "True"
+  - name: GALAXY_REQUIRED_VALID_SIGNATURE_COUNT
+    value: "+1"
+
+# Path where controller pods mount the trusted GPG keyring (from cluster-config secret)
+content_signing_galaxy_keyring_path: /etc/ansible/galaxy-keyring/pubring.kbx
+
+# When release manifest provides a digest, EE images are pinned immutably
+content_signing_use_digest_pins: true
